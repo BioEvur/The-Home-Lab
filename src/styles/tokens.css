@@ -1,0 +1,74 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Design tokens. The five brand colours are used exactly; derived tones
+   exist only for accessible text contrast and quiet surfaces.
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Brand palette */
+  --ink: #171918;
+  --chalk: #f5f3ee;
+  --olive: #59634d;
+  --clay: #b96e50;
+  --stone: #d8d5cd;
+
+  /* Derived */
+  --ink-soft: #3a3d3a; /* secondary text, 9.9:1 on chalk */
+  --ink-muted: #5d605b; /* tertiary text, 5.8:1 on chalk */
+  --olive-deep: #48503d; /* olive hover */
+  --clay-text: #93513a; /* clay used as small text, 5.4:1 on chalk */
+  --chalk-deep: #eeebe4; /* secondary surface */
+  --stone-soft: #e6e3dc; /* quiet surface */
+  --white: #fbfaf7;
+  --error: #9b3b2a;
+  --focus: #59634d;
+
+  /* Type */
+  /* Grotesk for interface and body; Newsreader (upright) for editorial headlines. */
+  --font-sans: var(--font-hanken), 'Hanken Grotesk', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), 'Newsreader', Georgia, 'Times New Roman', serif;
+
+  --fs-display: clamp(3rem, 1.2rem + 7vw, 8.75rem);
+  --fs-h1: clamp(2.5rem, 1.5rem + 3.6vw, 5rem);
+  --fs-h2: clamp(1.9rem, 1.35rem + 2vw, 3.4rem);
+  --fs-h3: clamp(1.15rem, 1.08rem + 0.3vw, 1.35rem);
+  --fs-lead: clamp(1.125rem, 1.04rem + 0.38vw, 1.375rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-xs: 0.8125rem;
+
+  --track-caps: 0.22em;
+  --track-logo: 0.42em;
+
+  /* Space */
+  --gutter: clamp(1rem, 0.4rem + 2.6vw, 3rem);
+  --section: clamp(4rem, 2.4rem + 6vw, 9rem);
+  --section-sm: clamp(2.5rem, 1.8rem + 3vw, 5rem);
+  --max: 1520px;
+  --measure: 38rem;
+  --header-h: 64px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-slide: cubic-bezier(0.65, 0, 0.15, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 160ms;
+  --t-med: 300ms;
+  --t-slow: 560ms;
+
+  --radius: 2px;
+  --rule: 1px solid var(--stone);
+  --shadow-soft: 0 18px 40px -24px rgb(23 25 24 / 0.35);
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 76px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-fast: 1ms;
+    --t-med: 1ms;
+    --t-slow: 1ms;
+  }
+}

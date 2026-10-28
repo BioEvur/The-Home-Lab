@@ -1,0 +1,369 @@
+/* ── Reset & base ──────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+
+html.has-modal {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--chalk);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+/* Component display rules must never un-hide a [hidden] element. */
+[hidden] {
+  display: none !important;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* Lists are unstyled by default (navigation, grids, breadcrumbs). Running
+   text opts back in with .prose. */
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+main:focus {
+  outline: none;
+}
+
+::selection {
+  background: var(--olive);
+  color: var(--chalk);
+}
+
+#scroll-sentinel {
+  position: absolute;
+  top: 0;
+  height: 40px;
+  width: 1px;
+  pointer-events: none;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--chalk);
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ── Typography helpers ────────────────────────────────────────────────── */
+/* A small sentence-case label. Used sparingly: to name a thing, not to
+   decorate every heading. */
+.eyebrow {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--ink-muted);
+  letter-spacing: 0.01em;
+}
+
+.eyebrow--clay {
+  color: var(--clay-text);
+}
+
+.display,
+.h1,
+.h2 {
+  font-family: var(--font-serif);
+  font-weight: 350;
+  font-optical-sizing: auto;
+}
+
+.display {
+  font-size: var(--fs-display);
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+}
+
+.h1 {
+  font-size: var(--fs-h1);
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+}
+
+.h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+
+.h3 {
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+/* Legacy accent span: headlines are set in one voice now. */
+.serif-italic {
+  font: inherit;
+  color: inherit;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: var(--measure);
+}
+
+.muted {
+  color: var(--ink-muted);
+}
+
+.note {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  font-size: var(--fs-small);
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+
+.note .icon {
+  flex: none;
+  margin-top: 0.15em;
+}
+
+.prose {
+  max-width: var(--measure);
+}
+
+.prose > * + * {
+  margin-top: 1.1em;
+}
+
+.prose h2 {
+  font-size: var(--fs-h3);
+  margin-top: 2.2em;
+}
+
+.prose h3 {
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-top: 1.8em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.25rem;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li::marker {
+  color: var(--olive);
+}
+
+.prose li + li {
+  margin-top: 0.4em;
+}
+
+.prose a {
+  color: var(--olive);
+}
+
+/* ── Layout primitives ─────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section);
+}
+
+.section--sm {
+  padding-block: var(--section-sm);
+}
+
+.rule {
+  border: 0;
+  border-top: var(--rule);
+  margin: 0;
+}
+
+/* ── Motion: page entrance and reveals ─────────────────────────────────── */
+.page-enter {
+  animation: page-in var(--t-slow) var(--ease-out) both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+}
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 700ms var(--ease-out) var(--reveal-delay, 0ms),
+    transform 700ms var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal][data-visible] {
+  opacity: 1;
+  transform: none;
+}
+
+.stagger > * {
+  animation: rise 720ms var(--ease-out) both;
+}
+
+.stagger > *:nth-child(2) {
+  animation-delay: 90ms;
+}
+
+.stagger > *:nth-child(3) {
+  animation-delay: 180ms;
+}
+
+.stagger > *:nth-child(4) {
+  animation-delay: 270ms;
+}
+
+.stagger > *:nth-child(5) {
+  animation-delay: 360ms;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter,
+  .stagger > * {
+    animation: none;
+  }
+
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
