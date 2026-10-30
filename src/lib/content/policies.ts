@@ -179,7 +179,7 @@ export const POLICY_PAGES: ContentPage[] = [
       {
         heading: 'Who we share it with',
         body: [
-          'We use service providers to run the shop: Shopify (catalogue, checkout and orders), Supabase (customer accounts and preferences), and [[email provider]], [[delivery carriers]], [[payment providers]].',
+          'We use service providers to run the shop: Shopify (catalogue, checkout and orders), Supabase (customer accounts and preferences), Resend (the emails we send), Zoho (our email inbox), [[delivery carriers]], [[payment providers]].',
           'International transfers and safeguards: [[confirm for each provider]].',
         ],
       },

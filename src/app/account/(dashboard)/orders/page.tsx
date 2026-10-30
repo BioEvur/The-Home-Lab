@@ -1,20 +1,17 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getOrdersForUser } from '@/lib/commerce/orders';
-import { isSupabaseConfigured } from '@/lib/supabase/config';
-import { getCurrentUser } from '@/lib/supabase/server';
+import { loadMember } from '@/lib/members/account';
 import { AccountSetupState } from '@/components/account/SetupState';
+import { OrderStatus, orderDate, orderMoney } from '@/components/account/OrderBits';
 import { FormStatus } from '@/components/forms/Field';
+import { Icon } from '@/components/ui/Icon';
 
 export const metadata: Metadata = { title: 'Orders', robots: { index: false } };
 
-const fmtDate = (iso: string) => new Intl.DateTimeFormat('en-IE', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
-const fmtMoney = (m: { amount: string; currencyCode: string }) => new Intl.NumberFormat('en-IE', { style: 'currency', currency: m.currencyCode }).format(Number(m.amount));
-const humanise = (s: string | null) => (s ? s.toLowerCase().replace(/_/g, ' ') : '—');
-
 export default async function OrdersPage() {
-  if (!isSupabaseConfigured()) return <AccountSetupState feature="Your order history" />;
-  const user = await getCurrentUser();
+  const { configured, user } = await loadMember();
+  if (!configured) return <AccountSetupState feature="Your order history" />;
   if (!user) return null;
   const result = await getOrdersForUser(user);
 
@@ -24,46 +21,42 @@ export default async function OrdersPage() {
         Orders
       </h2>
       {result.status === 'not-configured' && (
-        <FormStatus tone="info">Order history will appear here once the store is connected to Shopify. No orders can be placed in this development build.</FormStatus>
+        <FormStatus tone="info">Your orders will appear here once the shop opens for orders. Every order placed with {user.email} will be listed.</FormStatus>
       )}
       {result.status === 'unverified' && <FormStatus tone="info">Please confirm your email address to see orders linked to it.</FormStatus>}
       {result.status === 'error' && <FormStatus tone="error">We could not load your orders just now. Please try again later.</FormStatus>}
       {result.status === 'ok' && result.orders.length === 0 && (
         <div className="empty-state">
           <p className="empty-state__title">No orders yet.</p>
-          <p>Orders placed with {user.email} will appear here.</p>
-          <Link href="/" className="button button--primary">
-            See the room sets
+          <p>Orders placed with {user.email} will appear here, with their status and tracking.</p>
+          <Link href="/shop" className="button button--primary">
+            Shop the sets
           </Link>
         </div>
       )}
       {result.status === 'ok' && result.orders.length > 0 && (
-        <table className="orders-table">
-          <thead>
-            <tr>
-              <th scope="col">Order</th>
-              <th scope="col">Date</th>
-              <th scope="col">Payment</th>
-              <th scope="col">Fulfilment</th>
-              <th scope="col">Total</th>
-              <th scope="col">
-                <span className="visually-hidden">Details</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {result.orders.map((o) => (
-              <tr key={o.id}>
-                <td>{o.name}</td>
-                <td>{fmtDate(o.processedAt)}</td>
-                <td>{humanise(o.financialStatus)}</td>
-                <td>{humanise(o.fulfillmentStatus)}</td>
-                <td>{fmtMoney(o.total)}</td>
-                <td>{o.statusUrl && <a href={o.statusUrl}>Track</a>}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <ul className="order-list">
+          {result.orders.map((o) => (
+            <li key={o.id}>
+              <Link href={`/account/orders/${o.number}`} className="order-row">
+                <span className="order-row__thumbs">
+                  {o.images.slice(0, 3).map((img) => (
+                    <img key={img.url} src={img.url} alt={img.alt} width={56} height={56} loading="lazy" />
+                  ))}
+                </span>
+                <span className="order-row__main">
+                  <span className="order-row__name">{o.name}</span>
+                  <span className="muted">
+                    {orderDate(o.processedAt)} · {o.lineCount} {o.lineCount === 1 ? 'item' : 'items'}
+                  </span>
+                </span>
+                <OrderStatus order={o} />
+                <span className="order-row__total">{orderMoney(o.total)}</span>
+                <Icon name="chevron-right" />
+              </Link>
+            </li>
+          ))}
+        </ul>
       )}
     </section>
   );

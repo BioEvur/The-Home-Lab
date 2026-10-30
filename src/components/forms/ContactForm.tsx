@@ -1,6 +1,7 @@
 'use client';
 import Script from 'next/script';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useAuth } from '@/components/account/AuthProvider';
 import { required, validateEmail } from '@/lib/validation';
 import { FormStatus, SelectField, TextArea, TextField } from './Field';
 
@@ -14,6 +15,20 @@ export function ContactForm() {
   const [serverMessage, setServerMessage] = useState('');
   const startedAt = useRef(Date.now());
   const formRef = useRef<HTMLFormElement>(null);
+  const { user } = useAuth();
+
+  // Prefill from "Contact us about this order" links and the signed-in member's details.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const meta = user?.user_metadata as { first_name?: string; last_name?: string } | undefined;
+    setValues((v) => ({
+      ...v,
+      subject: v.subject || (['order', 'product', 'delivery', 'returns', 'trade', 'other'].includes(q.get('subject') ?? '') ? (q.get('subject') as string) : ''),
+      orderNumber: v.orderNumber || (q.get('order') ?? '').slice(0, 40),
+      name: v.name || [meta?.first_name, meta?.last_name].filter(Boolean).join(' '),
+      email: v.email || user?.email || '',
+    }));
+  }, [user]);
   const set = (k: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setValues((v) => ({ ...v, [k]: e.target.value }));
 

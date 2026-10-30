@@ -1,10 +1,12 @@
 'use client';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { required, validateEmail, validatePassword } from '@/lib/validation';
 import { Checkbox, FormStatus, TextField } from '@/components/forms/Field';
+import { REFERRAL, euros } from '@/lib/content/members';
+import { readReferralCookie } from './RememberReferral';
 
 const NOT_CONNECTED = 'Customer accounts are not connected in this development build, so nothing has been submitted. Your details were valid.';
 
@@ -63,6 +65,12 @@ export function LoginForm() {
 }
 
 export function RegisterForm() {
+  const params = useSearchParams();
+  const [referralCode, setReferralCode] = useState<string | null>(null);
+  useEffect(() => {
+    const code = (params.get('ref') ?? readReferralCookie() ?? '').toUpperCase();
+    if (REFERRAL.enabled && /^[A-Z0-9-]{4,20}$/.test(code)) setReferralCode(code);
+  }, [params]);
   const [values, setValues] = useState({ firstName: '', lastName: '', email: '', password: '', confirm: '' });
   const [terms, setTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string | null>>({});
@@ -90,7 +98,7 @@ export function RegisterForm() {
       email: values.email.trim(),
       password: values.password,
       options: {
-        data: { first_name: values.firstName.trim(), last_name: values.lastName.trim() },
+        data: { first_name: values.firstName.trim(), last_name: values.lastName.trim(), ...(referralCode ? { referral_code: referralCode } : {}) },
         emailRedirectTo: `${window.location.origin}/auth/callback?next=/account`,
       },
     });
@@ -104,6 +112,11 @@ export function RegisterForm() {
 
   return (
     <form onSubmit={submit} noValidate className="auth-form">
+      {referralCode && (
+        <FormStatus tone="info">
+          You were invited by a friend. Once your email is confirmed, your {euros(REFERRAL.friendCents)} first-order code appears in your account.
+        </FormStatus>
+      )}
       <div className="form-grid form-grid--2">
         <TextField id="firstName" label="First name" autoComplete="given-name" value={values.firstName} onChange={set('firstName')} error={errors.firstName} />
         <TextField id="lastName" label="Last name" autoComplete="family-name" value={values.lastName} onChange={set('lastName')} error={errors.lastName} />

@@ -1,0 +1,6 @@
+confirm-signup: Confirm your email for The Home Lab
+reset-password: Reset your Home Lab password
+magic-link: Your sign-in link for The Home Lab
+change-email: Confirm your new email address
+invite: You have been invited to The Home Lab
+reauthentication: Your Home Lab confirmation code

@@ -15,6 +15,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Icon } from '@/components/ui/Icon';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { Media } from '@/components/ui/Media';
+import { TrackView } from '@/components/account/RecentlyViewed';
 
 type Props = { params: Promise<{ handle: string }> };
 
@@ -64,6 +65,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <article className={`product world world--${set.theme}`}>
+      <TrackView handle={handle} />
       <JsonLd
         data={{
           '@context': 'https://schema.org',
