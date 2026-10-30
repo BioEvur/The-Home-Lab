@@ -16,6 +16,7 @@ Create a custom app (Settings › Apps and sales channels › Develop apps) with
 | --- | --- |
 | `read_customers`, `write_customers` | Find a customer by verified email and create one if none exists |
 | `read_orders` | Show order history in the account |
+| `write_discounts` | Create the single-use €15 referral codes for members and their friends |
 
 No other Admin scopes are needed. Install the app and copy the Admin API access token.
 
@@ -95,6 +96,8 @@ https://YOUR-DOMAIN/api/webhooks/shopify
 ```
 
 for these topics: `products/create`, `products/update`, `products/delete`, `collections/update`, `inventory_levels/update`.
+
+Also add `orders/fulfilled` to the same URL. When a referred member's first order ships, it marks the referral as rewarded and gives the member who invited them their €15 code.
 
 Copy the signing secret into `SHOPIFY_WEBHOOK_SECRET`. Requests without a valid `X-Shopify-Hmac-Sha256` signature are rejected with 401.
 

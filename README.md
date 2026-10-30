@@ -22,7 +22,8 @@ Requires Node 22 or later. Copy `.env.example` to `.env.local` to connect servic
 | --- | --- |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How the pieces fit, the Shopify and Supabase boundary, the identity mapping and its trade-offs |
 | [docs/SHOPIFY.md](docs/SHOPIFY.md) | Store setup, API scopes, product metafields, collections and webhooks |
-| [docs/SUPABASE.md](docs/SUPABASE.md) | Project setup, the migration, auth settings and row-level security |
+| [docs/SUPABASE.md](docs/SUPABASE.md) | Project setup, the migrations, auth settings, member tables and row-level security |
+| [docs/EMAIL.md](docs/EMAIL.md) | Resend setup, the email templates, Supabase SMTP and sending a newsletter |
 | [docs/LAUNCH.md](docs/LAUNCH.md) | What works now, what uses development data, what needs external services, the launch checklist and QA results |
 | [docs/DESIGN.md](docs/DESIGN.md) | Brand tokens, type, layout and component conventions |
 

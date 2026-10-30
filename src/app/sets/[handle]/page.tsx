@@ -20,6 +20,7 @@ import { StoryBeats } from '@/components/sets/StoryBeats';
 import { Icon } from '@/components/ui/Icon';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { Media } from '@/components/ui/Media';
+import { TrackView } from '@/components/account/RecentlyViewed';
 import { Reveal } from '@/components/ui/Reveal';
 
 type Props = { params: Promise<{ handle: string }> };
@@ -86,6 +87,7 @@ export default async function SetPage({ params }: Props) {
 
   return (
     <article className={`world world--${set.theme}`}>
+      <TrackView handle={set.handle} />
       <JsonLd
         data={{
           '@context': 'https://schema.org',

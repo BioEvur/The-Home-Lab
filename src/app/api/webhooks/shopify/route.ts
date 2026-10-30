@@ -2,12 +2,14 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 import { revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { shopifyConfig } from '@/lib/commerce/config';
+import { recordReferralOrder } from '@/lib/members/server';
 
 /**
  * Shopify webhooks. Verifies the HMAC signature before doing anything.
  *  - products/create|update|delete, collections/*  → refresh cached catalogue
  *  - inventory_levels/update                        → refresh availability
  *  - orders/create                                  → acknowledged; order history is read live from Shopify
+ *  - orders/fulfilled                               → a referred member's first shipped order earns their referrer's credit
  */
 export async function POST(request: Request) {
   if (!shopifyConfig.webhookSecret) return NextResponse.json({ message: 'Webhooks not configured.' }, { status: 503 });
@@ -20,6 +22,11 @@ export async function POST(request: Request) {
   const topic = request.headers.get('x-shopify-topic') ?? '';
   if (topic.startsWith('products/') || topic.startsWith('collections/') || topic.startsWith('inventory_levels/')) {
     revalidateTag('products', 'max');
+  }
+  if (topic === 'orders/fulfilled') {
+    const order = JSON.parse(raw) as { email?: string | null; customer?: { email?: string | null } | null };
+    const email = order.email ?? order.customer?.email;
+    if (email) await recordReferralOrder(email);
   }
   return NextResponse.json({ received: true });
 }

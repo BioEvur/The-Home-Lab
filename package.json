@@ -10,7 +10,8 @@
     "test": "node --import ./tests/register.mjs --test tests/*.test.mjs",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "emails": "node --import ./tests/register.mjs scripts/export-emails.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

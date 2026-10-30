@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { emailConfig, isEmailConfigured, sendEmail } from '@/lib/email/send';
+import { contactAcknowledgementEmail, contactNotificationEmail } from '@/lib/email/templates';
 import { clientIp, rateLimit } from '@/lib/rate-limit';
 import { required, validateEmail } from '@/lib/validation';
 
@@ -18,8 +20,9 @@ async function verifyTurnstile(token: string | undefined, ip: string) {
 
 /**
  * Contact form endpoint. Spam protection: honeypot field, minimum fill time,
- * per-IP rate limit, and optional Cloudflare Turnstile. Messages are forwarded
- * to CONTACT_WEBHOOK_URL (e.g. a helpdesk or email-sending function).
+ * per-IP rate limit, and optional Cloudflare Turnstile. Messages are emailed
+ * to the shop inbox (with a copy to the customer) when email sending is
+ * connected, otherwise forwarded to CONTACT_WEBHOOK_URL.
  */
 export async function POST(request: Request) {
   const ip = clientIp(request.headers);
@@ -48,6 +51,13 @@ export async function POST(request: Request) {
 
   if (!(await verifyTurnstile(body.turnstileToken as string | undefined, ip))) {
     return NextResponse.json({ message: 'We could not verify the form. Please try again.' }, { status: 400 });
+  }
+
+  if (isEmailConfigured()) {
+    const sent = await sendEmail(emailConfig.inbox, contactNotificationEmail({ name, email, subject, orderNumber, message }), { replyTo: email, tag: 'contact' });
+    if (!sent.ok) return NextResponse.json({ message: 'Your message could not be sent. Please try again.' }, { status: 502 });
+    await sendEmail(email, contactAcknowledgementEmail({ name, message }), { tag: 'contact-copy' });
+    return NextResponse.json({ status: 'sent' });
   }
 
   const webhook = process.env.CONTACT_WEBHOOK_URL;
