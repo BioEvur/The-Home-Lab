@@ -7,7 +7,7 @@ import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 /**
  * Newsletter with double opt-in. A sign-up is stored with its consent wording,
  * then confirmed from a link in an email. Only confirmed, subscribed addresses
- * are added to the Resend audience that newsletters are sent to.
+ * are added to Resend contacts, which newsletters are sent to.
  * Members subscribing from their account have a verified email, so they are
  * confirmed straight away.
  */

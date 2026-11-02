@@ -14,8 +14,8 @@ export const emailConfig = {
   replyTo: process.env.EMAIL_REPLY_TO || 'info@thehomelab.ie',
   /** Where contact form messages are delivered. */
   inbox: process.env.CONTACT_INBOX || 'info@thehomelab.ie',
-  /** Resend audience that newsletter subscribers are added to. */
-  audienceId: process.env.RESEND_AUDIENCE_ID ?? '',
+  /** Optional Resend segment that confirmed newsletter subscribers are also added to. */
+  segmentId: process.env.RESEND_SEGMENT_ID ?? '',
 };
 
 export const isEmailConfigured = () => Boolean(emailConfig.apiKey);
@@ -57,19 +57,17 @@ export async function sendEmail(to: string, email: Email, opts: { replyTo?: stri
   }
 }
 
-/** Adds or re-subscribes a contact in the newsletter audience. */
+/** Adds or re-subscribes a newsletter contact. Resend contacts are account-wide; unsubscribing applies to every broadcast. */
 export async function upsertNewsletterContact(email: string, firstName?: string | null) {
-  if (!isEmailConfigured() || !emailConfig.audienceId) return false;
-  const path = `/audiences/${emailConfig.audienceId}/contacts`;
-  const created = await resend(path, { method: 'POST', body: { email, first_name: firstName ?? undefined, unsubscribed: false } }).catch(() => null);
+  if (!isEmailConfigured()) return false;
+  const segments = emailConfig.segmentId ? [{ id: emailConfig.segmentId }] : undefined;
+  const created = await resend('/contacts', { method: 'POST', body: { email, first_name: firstName ?? undefined, unsubscribed: false, segments } }).catch(() => null);
   if (created) return true;
-  // Already in the audience: mark them subscribed again.
-  return Boolean(await resend(`${path}/${encodeURIComponent(email)}`, { method: 'PATCH', body: { unsubscribed: false } }).catch(() => null));
+  // Already a contact: mark them subscribed again.
+  return Boolean(await resend(`/contacts/${encodeURIComponent(email)}`, { method: 'PATCH', body: { unsubscribed: false } }).catch(() => null));
 }
 
 export async function unsubscribeNewsletterContact(email: string) {
-  if (!isEmailConfigured() || !emailConfig.audienceId) return false;
-  return Boolean(
-    await resend(`/audiences/${emailConfig.audienceId}/contacts/${encodeURIComponent(email)}`, { method: 'PATCH', body: { unsubscribed: true } }).catch(() => null),
-  );
+  if (!isEmailConfigured()) return false;
+  return Boolean(await resend(`/contacts/${encodeURIComponent(email)}`, { method: 'PATCH', body: { unsubscribed: true } }).catch(() => null));
 }
