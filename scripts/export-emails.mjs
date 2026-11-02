@@ -8,13 +8,14 @@ const SITE = 'https://thehomelab.ie';
 // Links and the logo point at the live site.
 process.env.NEXT_PUBLIC_SITE_URL ??= SITE;
 const t = await import('../src/lib/email/templates.ts');
+const auth = await import('../src/lib/email/auth-emails.ts');
 const out = (path, html) => {
   mkdirSync(new URL('.', new URL(path, import.meta.url)), { recursive: true });
   writeFileSync(new URL(path, import.meta.url), html);
 };
 
 const subjects = [];
-for (const [name, email] of Object.entries(t.supabaseTemplates(SITE))) {
+for (const [name, email] of Object.entries(auth.supabaseTemplates(SITE))) {
   out(`../emails/supabase/${name}.html`, email.html);
   subjects.push(`${name}: ${email.subject}`);
 }
