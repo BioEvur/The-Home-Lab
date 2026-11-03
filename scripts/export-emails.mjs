@@ -23,7 +23,7 @@ out('../emails/supabase/SUBJECTS.txt', subjects.join('\n') + '\n');
 out('../emails/newsletter-broadcast.html', t.newsletterBroadcastTemplate(SITE).html);
 
 const samples = {
-  welcome: t.welcomeEmail({ firstName: 'Emma', referralCode: 'EMMA-7KQ2' }),
+  welcome: t.welcomeEmail({ firstName: 'Emma', referralCode: 'EMMA-7KQ2', memberNumber: 42 }),
   'newsletter-confirm': t.newsletterConfirmEmail({ confirmUrl: `${SITE}/newsletter/confirm?token=sample` }),
   'newsletter-welcome': t.newsletterWelcomeEmail({ unsubscribeUrl: `${SITE}/newsletter/unsubscribe?token=sample` }),
   'referral-invite': t.referralInviteEmail({ fromName: 'Emma', link: `${SITE}/r/EMMA-7KQ2`, note: 'The Kyoto set is lovely.' }),

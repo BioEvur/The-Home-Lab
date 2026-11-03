@@ -129,7 +129,7 @@ export async function welcomeMember(user: User) {
     .update({ welcome_sent_at: new Date().toISOString() })
     .eq('id', user.id)
     .is('welcome_sent_at', null)
-    .select('first_name,referral_code,referred_by')
+    .select('first_name,referral_code,referred_by,member_number')
     .maybeSingle();
   if (!claimed) return; // Already welcomed.
 
@@ -145,7 +145,7 @@ export async function welcomeMember(user: User) {
       await ensureRewardCodes(user.id);
     }
   }
-  await sendEmail(user.email, welcomeEmail({ firstName: claimed.first_name, referralCode: claimed.referral_code }), { tag: 'welcome' });
+  await sendEmail(user.email, welcomeEmail({ firstName: claimed.first_name, referralCode: claimed.referral_code, memberNumber: claimed.member_number, friendOffer: REFERRAL.enabled && Boolean(claimed.referred_by) }), { tag: 'welcome' });
 }
 
 /**

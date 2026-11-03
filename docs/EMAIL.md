@@ -14,7 +14,7 @@ The site sends its own emails through [Resend](https://resend.com) from `info@th
 | Launch alert | A coming-soon set opens (template ready, sent on request) | `launchAlertEmail` |
 | Newsletter | You write one in Resend Broadcasts | `emails/newsletter-broadcast.html` |
 
-All templates live in `src/lib/email/templates.ts` and share one layout (`src/lib/email/layout.ts`). Every email has a plain-text version. After changing a template run `npm run emails` to refresh the HTML files in `emails/` and the previews in `emails/previews/`.
+Site emails live in `src/lib/email/templates.ts` and the Supabase account emails in `src/lib/email/auth-emails.ts`. Each has its own design, built from the shared pieces in `src/lib/email/design.ts`; photos load from `public/email/`. Every email has a plain-text version. After changing a template run `npm run emails` to refresh the HTML files in `emails/` and the previews in `emails/previews/`.
 
 ## 1. Verify the domain in Resend
 
