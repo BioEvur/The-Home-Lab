@@ -14,7 +14,7 @@ The site sends its own emails through [Resend](https://resend.com) from `info@th
 | Launch alert | A coming-soon set opens (template ready, sent on request) | `launchAlertEmail` |
 | Newsletter | You write one in Resend Broadcasts | `emails/newsletter-broadcast.html` |
 
-All templates live in `src/lib/email/templates.ts` and share one layout (`src/lib/email/layout.ts`). Every email has a plain-text version. After changing a template run `npm run emails` to refresh the HTML files in `emails/` and the previews in `emails/previews/`.
+Site emails live in `src/lib/email/templates.ts` and the Supabase account emails in `src/lib/email/auth-emails.ts`. Each has its own design, built from the shared pieces in `src/lib/email/design.ts`; photos load from `public/email/`. Every email has a plain-text version. After changing a template run `npm run emails` to refresh the HTML files in `emails/` and the previews in `emails/previews/`.
 
 ## 1. Verify the domain in Resend
 
@@ -24,10 +24,10 @@ All templates live in `src/lib/email/templates.ts` and share one layout (`src/li
 4. Press Verify. These records sit on subdomains, so they do not touch the Zoho MX and SPF records on `thehomelab.ie` itself.
 5. Optional but recommended: add a DMARC record if Zoho setup did not, `_dmarc` TXT `v=DMARC1; p=none; rua=mailto:info@thehomelab.ie`.
 
-## 2. API key and audience
+## 2. API key
 
 1. API Keys › Create, with "Sending access" for `thehomelab.ie`. Copy it once.
-2. Audiences: Resend creates a default audience. Copy its ID. Confirmed newsletter subscribers are added here, and unsubscribes are synced both ways through the link in each email.
+2. Nothing to set up under Audience. Confirmed newsletter subscribers appear there as contacts automatically, and unsubscribes are synced both ways through the link in each email. If you later want subscribers in a particular segment, put its ID in `RESEND_SEGMENT_ID`.
 
 ## 3. Cloudflare variables
 
@@ -35,7 +35,6 @@ In Cloudflare › Workers & Pages › the-home-lab › Settings › Variables an
 
 ```
 RESEND_API_KEY=re_...
-RESEND_AUDIENCE_ID=...
 EMAIL_FROM=The Home Lab <info@thehomelab.ie>
 EMAIL_REPLY_TO=info@thehomelab.ie
 CONTACT_INBOX=info@thehomelab.ie
@@ -60,7 +59,7 @@ Then in Authentication › Emails › Templates, for each template paste the sub
 
 ## 5. Sending a newsletter
 
-In Resend › Broadcasts › New, choose the audience, paste `emails/newsletter-broadcast.html` as the HTML and replace the placeholder text. The unsubscribe link is filled in by Resend. Only confirmed subscribers are in the audience.
+In Resend › Broadcasts › New, send to all contacts (or your segment), paste `emails/newsletter-broadcast.html` as the HTML and replace the placeholder text. The unsubscribe link is filled in by Resend. Only confirmed subscribers are added as contacts.
 
 ## Without Resend
 
