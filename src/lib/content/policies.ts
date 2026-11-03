@@ -61,7 +61,7 @@ export const HELP_PAGES: ContentPage[] = [
       {
         heading: 'Your right to cancel',
         body: [
-          'If you buy online as a consumer in Ireland, you generally have the right to cancel within 14 days of receiving your goods, without giving a reason. [[Confirm wording and any exceptions with a legal adviser.]]',
+          'If you buy online as a consumer in Ireland, you have the right to cancel within 14 days of receiving your goods, without giving a reason.',
         ],
       },
       {
@@ -74,7 +74,7 @@ export const HELP_PAGES: ContentPage[] = [
       },
       {
         heading: 'Refunds',
-        body: ['Refunds are made to the original payment method. Timing: [[confirm, within the legal maximum]].'],
+        body: ['Refunds are made to the original payment method within 14 days of you telling us you are cancelling. We may wait until we receive the goods back, or until you show us proof that you have sent them, whichever is sooner.'],
       },
       {
         heading: 'Damaged or faulty items',
@@ -142,11 +142,11 @@ export const FAQS: { q: string; a: string }[] = [
   },
   {
     q: 'Can I buy one piece from a set?',
-    a: 'Not at the moment. The pieces are chosen to work together, so each set is sold as a whole.',
+    a: 'Yes. Every piece is also sold on its own in the shop. Buying the whole set always costs less than buying its pieces one by one.',
   },
   {
     q: 'Are the photos of the actual pieces?',
-    a: 'Not yet. The photos on the site are samples of similar pieces, and each one is marked as a sample. They will be replaced with photographs of the sets themselves.',
+    a: 'For Kyoto Kissaten and The Milanese, yes: the photos show the actual pieces. Riad Corner is not open yet, so its photos are samples of similar pieces, each marked as a sample, until we photograph the real set.',
   },
   { q: 'Do I need an account to order?', a: 'No. You can check out as a guest. An account lets you see your orders, save addresses and keep a wishlist across devices.' },
   { q: 'Can I change or cancel my order?', a: 'Contact us as soon as possible with your order number. See the orders help page for details.' },
@@ -159,7 +159,7 @@ export const POLICY_PAGES: ContentPage[] = [
     description: 'How The Home Lab collects, uses and protects personal data.',
     draft: true,
     sections: [
-      { heading: 'Who we are', body: ['The data controller is [[registered company name]], [[registered address]]. Contact for privacy matters: [[privacy contact email]].'] },
+      { heading: 'Who we are', body: ['The data controller is [[registered company name]], [[registered address]]. Contact for privacy matters: info@thehomelab.ie.'] },
       {
         heading: 'What we collect',
         body: [
@@ -175,12 +175,12 @@ export const POLICY_PAGES: ContentPage[] = [
           },
         ],
       },
-      { heading: 'Why we use it and our legal bases', body: ['[[Confirm lawful basis for each purpose (contract, consent, legitimate interests, legal obligation).]]'] },
+      { heading: 'Why we use it and our legal bases', body: ['We use your details to process your orders and run your account (to perform our contract with you), to send marketing emails only if you have opted in (your consent, which you can withdraw at any time), to keep the site secure and prevent fraud (our legitimate interests), and to keep order records for tax purposes (a legal obligation).'] },
       {
         heading: 'Who we share it with',
         body: [
           'We use service providers to run the shop: Shopify (catalogue, checkout and orders), Supabase (customer accounts and preferences), Resend (the emails we send), Zoho (our email inbox), [[delivery carriers]], [[payment providers]].',
-          'International transfers and safeguards: [[confirm for each provider]].',
+          'Some of these providers store data outside the European Economic Area. Where they do, it is protected by the European Commission’s Standard Contractual Clauses or the EU-US Data Privacy Framework.',
         ],
       },
       { heading: 'How long we keep it', body: ['[[Confirm retention periods for accounts, orders, marketing consent and contact messages.]]'] },
@@ -206,7 +206,7 @@ export const POLICY_PAGES: ContentPage[] = [
       },
       {
         heading: 'Analytics',
-        body: ['Only set if you opt in. No analytics provider is currently active. [[List provider, cookie names and durations when one is chosen.]]'],
+        body: ['Only set if you opt in. No analytics provider is currently active.'],
       },
       { heading: 'Marketing', body: ['Only set if you opt in. None are currently in use.'] },
       { heading: 'Changing your choices', body: ['Use “Cookie preferences” in the footer at any time. Your choice is remembered for six months.'] },
@@ -222,8 +222,8 @@ export const POLICY_PAGES: ContentPage[] = [
       { heading: 'Orders and contract', body: ['[[Confirm when a contract is formed (e.g. on dispatch confirmation) and how errors in pricing are handled.]]'] },
       { heading: 'Prices', body: ['Prices are in euro and [[confirm VAT inclusion]]. Delivery charges are shown at checkout.'] },
       { heading: 'Delivery, returns and cancellation', body: ['See our delivery policy and returns policy.'] },
-      { heading: 'Liability', body: ['[[Legal review required.]] Nothing in these terms affects your statutory rights as a consumer.'] },
-      { heading: 'Governing law', body: ['[[Confirm: the laws of Ireland and the jurisdiction of the Irish courts.]]'] },
+      { heading: 'Liability', body: ['We are responsible for loss or damage you suffer that is a foreseeable result of us breaking these terms or failing to use reasonable care. Nothing in these terms limits our liability where it would be unlawful to do so, and nothing affects your statutory rights as a consumer.'] },
+      { heading: 'Governing law', body: ['These terms are governed by the laws of Ireland. You can bring a claim in the Irish courts. If you live elsewhere in the EU, you can also bring a claim in the courts where you live.'] },
     ],
   },
   {
@@ -232,11 +232,11 @@ export const POLICY_PAGES: ContentPage[] = [
     description: 'Our formal returns and refunds policy.',
     draft: true,
     sections: [
-      { heading: 'Cancellation period', body: ['[[Confirm: at least 14 days from receipt for distance sales to consumers.]]'] },
+      { heading: 'Cancellation period', body: ['You can cancel your order within 14 days of the day you receive it, without giving a reason.'] },
       { heading: 'Condition of returned items', body: ['[[Confirm requirements (e.g. unused, original packaging) consistent with consumer law.]]'] },
       { heading: 'Exclusions', body: ['[[Confirm any lawful exclusions, e.g. made-to-order or sealed hygiene items.]]'] },
       { heading: 'Return delivery costs', body: ['[[Confirm who pays and any bulky-item collection charges.]]'] },
-      { heading: 'Refund timing', body: ['[[Confirm: within 14 days of cancellation, may be withheld until goods are received back.]]'] },
+      { heading: 'Refund timing', body: ['We refund you within 14 days of the day you tell us you are cancelling, to your original payment method. We may wait until we receive the goods back, or until you show us proof that you have sent them, whichever is sooner.'] },
       { heading: 'Faulty goods', body: ['Your statutory rights for faulty goods are not affected by this policy.'] },
     ],
   },

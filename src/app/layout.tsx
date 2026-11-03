@@ -10,7 +10,7 @@ import { WishlistProvider } from '@/components/commerce/WishlistProvider';
 import { CookieConsent } from '@/components/consent/CookieConsent';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
-import { AnnouncementBar, DevelopmentNotice } from '@/components/layout/SiteNotices';
+import { AnnouncementBar } from '@/components/layout/SiteNotices';
 import { AnnouncerProvider } from '@/components/ui/Announcer';
 import '@/styles/index.css';
 
@@ -59,7 +59,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </main>
                   <Footer />
                   <CartDrawer />
-                  <DevelopmentNotice mode={mode} />
                   <CookieConsent />
                 </WishlistProvider>
               </CartProvider>

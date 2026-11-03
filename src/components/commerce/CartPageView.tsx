@@ -122,7 +122,7 @@ export function CartPageView() {
             <Icon name="info" size={16} />
             {mode === 'shopify'
               ? `“${appliedCode}” will be checked and applied at checkout if it is valid.`
-              : `“${appliedCode}” has been noted, but codes can only be checked once Shopify is connected.`}
+              : `“${appliedCode}” will be checked at checkout when orders open.`}
           </p>
         )}
 

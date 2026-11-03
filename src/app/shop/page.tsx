@@ -28,7 +28,7 @@ export default async function ShopPage() {
       <header className="container shop-head">
         <h1 className="display-2">Shop every piece</h1>
         <p className="shop-head__lede">
-          Every piece from our three room sets, sold on its own. If you want the whole corner, buy it as a set: each set costs less than its pieces bought
+          Every piece from our room sets, sold on its own. If you want the whole corner, buy it as a set: each set costs less than its pieces bought
           one by one.
         </p>
         {copy.batch && <p className="shop-head__batch">{copy.line}</p>}

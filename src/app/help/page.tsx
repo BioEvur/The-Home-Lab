@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { siteConfig } from '@/lib/config/site';
 import { HELP_PAGES } from '@/lib/content/policies';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { DevPlaceholder } from '@/components/ui/DevNote';
 import { Icon } from '@/components/ui/Icon';
 
 export const metadata: Metadata = { title: 'Help centre', description: 'Delivery, returns, orders, payments and answers to common questions.', alternates: { canonical: '/help' } };
@@ -36,7 +35,6 @@ export default function HelpPage() {
             </>
           )}
         </p>
-        {siteConfig.contact.hours ? <p className="muted">{siteConfig.contact.hours}</p> : <DevPlaceholder>opening hours</DevPlaceholder>}
       </section>
     </>
   );

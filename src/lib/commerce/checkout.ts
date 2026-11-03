@@ -71,7 +71,7 @@ export async function createCheckout(
     return {
       ok: false,
       code: 'COMMERCE_NOT_CONFIGURED',
-      message: 'Checkout is not connected in this development build. No order has been created and no payment has been taken.',
+      message: 'Orders are not open yet. No order has been created and no payment has been taken.',
     };
   }
   const cleaned = lines
