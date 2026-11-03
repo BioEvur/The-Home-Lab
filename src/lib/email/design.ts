@@ -111,8 +111,8 @@ export function shell(o: { title: string; preheader: string; label: string; body
 <tr><td align="center" style="padding:28px 12px 40px">
 <table role="presentation" class="wrap" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px">
 <tr><td style="padding:0 4px 18px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-<td style="font-family:${SERIF};font-size:15px;letter-spacing:0.32em;color:${C.ink}">THE&nbsp;HOME&nbsp;LAB</td>
-<td align="right" style="font-family:${SANS};font-size:12px;letter-spacing:0.08em;color:${C.muted}">${o.label}</td>
+<td valign="middle"><a href="${o.site}" style="text-decoration:none;color:${C.ink}"><img src="${o.site}/email/logo-mark.png" width="34" height="24" alt="" style="display:inline-block;vertical-align:middle;width:34px;height:24px;border:0"><span style="display:inline-block;vertical-align:middle;margin-left:12px;font-family:${SERIF};font-size:15px;letter-spacing:0.32em;color:${C.ink}">THE&nbsp;HOME&nbsp;LAB</span></a></td>
+<td align="right" valign="middle" style="font-family:${SANS};font-size:12px;letter-spacing:0.08em;color:${C.muted}">${o.label}</td>
 </tr></table></td></tr>
 ${o.body}
 <tr><td style="padding:28px 4px 0">
