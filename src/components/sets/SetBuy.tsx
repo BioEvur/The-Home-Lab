@@ -72,7 +72,7 @@ export function SetBuy({
     <div className="set-buy">
       <p className="set-buy__price">
         <span className="set-buy__amount">{formatMoney(variant.price)}</span>
-        <span className="set-buy__count">The whole set{devPrice && ', sample price'}</span>
+        <span className="set-buy__count">The whole set</span>
       </p>
       {offer && offer.saving > 0 && (
         <p className="set-buy__saving">

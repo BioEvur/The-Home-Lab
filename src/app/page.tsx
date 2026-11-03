@@ -42,7 +42,7 @@ export default async function HomePage() {
           <h1 id="hero-title" className="display home-doors__title">
             Bring a place home.
           </h1>
-          <p className="home-doors__lede">Three rooms from three places. Each set arrives in one box, with every piece it needs. Choose where you would like to be.</p>
+          <p className="home-doors__lede">Rooms from places around the world, with more on the way. Each set arrives in one box, with every piece it needs. Choose where you would like to be.</p>
         </div>
         <ul className="home-doors__list">
           {ROOM_SETS.map((set, i) => (

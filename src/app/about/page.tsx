@@ -61,7 +61,7 @@ export default async function AboutPage() {
       {/* The three places, each in its own colours. */}
       <section className="about-sets" aria-labelledby="about-sets-title">
         <h2 id="about-sets-title" className="visually-hidden">
-          The three room sets
+          Our room sets so far
         </h2>
         <ul className="about-sets__list">
           {ROOM_SETS.map((set) => {

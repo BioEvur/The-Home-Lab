@@ -3,12 +3,11 @@ import Link from 'next/link';
 import { siteConfig } from '@/lib/config/site';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { DevPlaceholder } from '@/components/ui/DevNote';
 
 export const metadata: Metadata = { title: 'Contact', description: 'Get in touch with The Home Lab customer service.', alternates: { canonical: '/contact' } };
 
 export default function ContactPage() {
-  const { contact } = siteConfig;
+  const email = siteConfig.contact.email ?? 'info@thehomelab.ie';
   return (
     <div className="container contact section--sm">
       <header className="page-head">
@@ -21,30 +20,10 @@ export default function ContactPage() {
           <dl className="contact__details">
             <div>
               <dt>Email</dt>
-              <dd>{contact.email ? <a href={`mailto:${contact.email}`}>{contact.email}</a> : <DevPlaceholder>customer service email</DevPlaceholder>}</dd>
+              <dd>
+                <a href={`mailto:${email}`}>{email}</a>
+              </dd>
             </div>
-            {(contact.phone || !contact.email) && (
-              <div>
-                <dt>Phone</dt>
-                <dd>{contact.phone ? <a href={`tel:${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a> : <DevPlaceholder>phone number</DevPlaceholder>}</dd>
-              </div>
-            )}
-            <div>
-              <dt>Hours</dt>
-              <dd>{contact.hours ?? <DevPlaceholder>opening hours</DevPlaceholder>}</dd>
-            </div>
-            {contact.responseTime && (
-              <div>
-                <dt>Response time</dt>
-                <dd>{contact.responseTime}</dd>
-              </div>
-            )}
-            {contact.address && (
-              <div>
-                <dt>Registered address</dt>
-                <dd>{contact.address}</dd>
-              </div>
-            )}
           </dl>
           <p className="muted">
             You may find a quick answer in our <Link href="/help/faqs">FAQs</Link>, or the <Link href="/help/delivery">delivery</Link> and{' '}

@@ -20,10 +20,10 @@ export function CheckoutButton({ discountCode }: { discountCode?: string }) {
     return (
       <div className="checkout-dev">
         <button type="button" className="button button--primary button--block" disabled aria-describedby="checkout-dev-note">
-          Checkout not connected
+          Orders open soon
         </button>
         <p id="checkout-dev-note" className="note">
-          <Icon name="info" size={16} /> This is a development build. Checkout opens on Shopify once the store is connected; no orders or payments can be made here.
+          <Icon name="info" size={16} /> We are finishing our checkout. Join the list at the bottom of the page and we will email you as soon as orders open.
         </p>
       </div>
     );
