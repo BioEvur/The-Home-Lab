@@ -79,6 +79,20 @@ export interface RoomSetContent {
   facts: { label: string; value: string }[];
   status: SetStatus;
   statusNote?: string;
+  /** Search and gifting copy. */
+  seo?: SetSeo;
+}
+
+export interface SetSeo {
+  /** Page title for search results, under about 60 characters. */
+  title: string;
+  /** Search result description, about 150 characters. */
+  description: string;
+  /** Plain description of what the set is, shown above the title, e.g. "Japanese pour-over coffee set". */
+  category: string;
+  /** Who the set suits, as a gift or for yourself. */
+  goodFor: { heading: string; text: string }[];
+  faqs: { q: string; a: string }[];
 }
 
 /** "the Kyoto Kissaten", but "The Milanese" when the title already starts with "The". */
@@ -227,6 +241,25 @@ export const ROOM_SETS: RoomSetContent[] = [
       { label: 'Uses', value: 'Size 02 cone filter papers (a pack is included)' },
     ],
     status: 'available',
+    seo: {
+      title: 'Kyoto Kissaten: Japanese pour-over coffee gift set',
+      description:
+        'A complete Japanese pour-over coffee set: glass dripper and jug, gooseneck kettle, Hario hand grinder, four cups and a board. One box, posted from Ireland.',
+      category: 'Japanese pour-over coffee set',
+      goodFor: [
+        { heading: 'A gift for a coffee lover', text: 'Everything they need to make pour-over at home on Christmas morning, with nothing extra to buy apart from beans. Good for the person who loves café coffee but has never brewed by hand.' },
+        { heading: 'Anyone starting pour-over', text: 'Rather than choosing a grinder, kettle and dripper separately, you get pieces chosen to work together, plus a step-by-step brewing guide.' },
+        { heading: 'A slower morning', text: 'For anyone who wants their first coffee to be a three-minute ritual at the counter rather than a button on a machine.' },
+      ],
+      faqs: [
+        { q: 'What is in the Kyoto Kissaten set?', a: 'An amber glass pour-over dripper with its own 400 ml jug and a pack of filters, a 1 litre electric gooseneck kettle, a Hario ceramic hand grinder, four handleless ceramic cups in a gift box, and an acacia serving board.' },
+        { q: 'Do I need anything else?', a: 'Only coffee beans. Whole beans from an Irish speciality roaster are ideal, since the set includes a grinder.' },
+        { q: 'Is it good for a beginner?', a: 'Yes. Pour-over is easy to learn, and the set page has a six-step brewing guide. Our Journal has a longer beginner’s guide too.' },
+        { q: 'How many cups does it make?', a: 'One to three cups at a time. The jug holds 400 ml.' },
+        { q: 'Which filters does the dripper use?', a: 'Size 02 cone filter papers. A pack comes with the set, and they are easy to find in Ireland.' },
+        { q: 'Can I buy just the grinder or the kettle?', a: 'Yes. Every piece is sold on its own in the shop. The set costs less than buying all five pieces separately.' },
+      ],
+    },
   },
   {
     handle: 'the-milanese',
@@ -385,6 +418,25 @@ export const ROOM_SETS: RoomSetContent[] = [
       { label: 'Lamp', value: 'Plugs into the wall' },
     ],
     status: 'available',
+    seo: {
+      title: 'The Milanese: home bar and console styling set',
+      description:
+        'A Milan-style home bar in one box: crystal decanter and glasses, Boston shaker, travertine lamp, wavy mirror, glass vase and candle holders. Posted from Ireland.',
+      category: 'Home bar and console styling set',
+      goodFor: [
+        { heading: 'A gift for someone who hosts', text: 'For the friend or couple whose house everyone ends up in. It turns a sideboard into the place the evening starts.' },
+        { heading: 'A new home', text: 'A finished, styled corner for a living or dining room, in one delivery. A generous housewarming gift from family or a group of friends.' },
+        { heading: 'Anyone with a bare console', text: 'If you have a console or sideboard you have never quite known what to do with, this is the whole look worked out: lamp, mirror, decanter, glass and candlelight.' },
+      ],
+      faqs: [
+        { q: 'What is in The Milanese set?', a: 'A cut-crystal whisky decanter with four glasses, chilling stones and a stone tray; a two-tin Boston cocktail shaker; a travertine table lamp; a wavy wall mirror with a pine frame; a 24 cm mouth-blown glass vase; and a pair of ceramic candle holders.' },
+        { q: 'Does it include alcohol?', a: 'No. The set is the drinks corner itself. You add your own drinks.' },
+        { q: 'How much space do I need?', a: 'A console or sideboard about 120 × 40 cm, the wall above it for the mirror, and a socket nearby for the lamp.' },
+        { q: 'I do not have a console. Can I get one?', a: 'Yes. The Manhattan console table is offered on this page as an add-on, cheaper with the set. It is delivered separately by courier and arrives by the same date as the set.' },
+        { q: 'Is the lamp real travertine?', a: 'Yes, it is natural travertine stone, so the colour and markings vary slightly from lamp to lamp.' },
+        { q: 'Can I buy single pieces?', a: 'Yes. Every piece is sold on its own in the shop. The set costs less than buying all six pieces separately.' },
+      ],
+    },
   },
   {
     handle: 'riad-corner',
@@ -540,6 +592,21 @@ export const ROOM_SETS: RoomSetContent[] = [
     ],
     status: 'coming-soon',
     statusNote: 'Riad Corner opens in the new year. The rug, pouf and lantern are made by hand in Morocco, so they take longer to arrive. Leave your email and we will tell you when it opens.',
+    seo: {
+      title: 'Riad Corner: Moroccan reading and tea corner set',
+      description:
+        'A Moroccan riad-style corner in one box: rag rug, wool pouf, brass tray, teapot, six tea glasses and a pierced lantern. Opening in the new year.',
+      category: 'Moroccan reading and tea corner set',
+      goodFor: [
+        { heading: 'A quiet corner', text: 'For a reading nook, the corner of a bedroom or a spare room: low seating, warm lantern light and a pot of mint tea.' },
+        { heading: 'Anyone who loves Morocco', text: 'For people who came home from Marrakech wishing they could bring the riad with them.' },
+      ],
+      faqs: [
+        { q: 'When does Riad Corner open?', a: 'In the new year. The rug, pouf and lantern are made by hand in Morocco and take longer to arrive. Leave your email on this page and we will tell you when it opens.' },
+        { q: 'What will be in the set?', a: 'A Moroccan rag rug, a wool pouf, a brass tray, a teapot, six painted tea glasses and a pierced brass lantern.' },
+        { q: 'How do you make Moroccan mint tea?', a: 'Rinse a spoonful of green gunpowder tea with hot water, add a handful of fresh mint, sugar to taste and boiling water, then steep for a few minutes. Pour from a height into small glasses so it froths.' },
+      ],
+    },
   },
 ];
 

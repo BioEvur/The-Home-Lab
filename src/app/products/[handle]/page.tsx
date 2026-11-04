@@ -42,9 +42,11 @@ function lookup(handle: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const item = lookup((await params).handle);
   if (!item) notFound();
+  const firstSentence = item.what.split(/(?<=\.)\s/)[0];
+  const from = item.kind === 'add-on' ? `Optional add-on to ${theTitle(item.set.title)} set` : `From ${theTitle(item.set.title)} set, sold on its own`;
   return {
-    title: item.title,
-    description: item.what,
+    title: `${item.title} | ${item.set.title}`,
+    description: `${firstSentence} ${from}. Delivered in Ireland, no customs charges.`,
     alternates: { canonical: `/products/${(await params).handle}` },
   };
 }

@@ -32,6 +32,7 @@ export function Footer() {
                   </li>
                 ))}
                 <li><Link href="/shop">Shop every piece</Link></li>
+                <li><Link href="/gifts">Christmas gifts</Link></li>
               </ul>
             </nav>
             <nav aria-labelledby="footer-help">
@@ -46,6 +47,7 @@ export function Footer() {
               <h2 id="footer-about" className="site-footer__heading">The Home Lab</h2>
               <ul>
                 <li><Link href="/about">About us</Link></li>
+                <li><Link href="/journal">Journal</Link></li>
                 <li><Link href="/account">Your account</Link></li>
                 <li><Link href="/wishlist">Wishlist</Link></li>
                 <li><Link href="/cart">Basket</Link></li>

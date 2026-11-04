@@ -4,11 +4,13 @@ import { notFound } from 'next/navigation';
 import { getProduct, getProductsByHandles } from '@/lib/commerce';
 import { SITE_URL, siteConfig } from '@/lib/config/site';
 import { formatDay, preorderCopy } from '@/lib/content/batches';
-import { ROOM_SETS, getRoomSet, itemCount, piecePhotos, setPhoto } from '@/lib/content/sets';
+import { ROOM_SETS, getRoomSet, itemCount, piecePhotos, setPhoto, theTitle } from '@/lib/content/sets';
 import { photoUrl } from '@/lib/content/media';
 import { defaultVariant } from '@/lib/catalog/variants';
 import { setOffer } from '@/lib/catalog/offers';
 import { addOnsForSet } from '@/lib/content/addons';
+import { postsForSet } from '@/lib/content/journal';
+import { PostCard } from '@/components/journal/PostCard';
 import { formatMoney } from '@/lib/format';
 import { BoxContents, type BoxPiece } from '@/components/sets/BoxContents';
 import { NewsletterForm } from '@/components/forms/NewsletterForm';
@@ -37,8 +39,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const set = getRoomSet((await params).handle);
   if (!set) notFound();
   return {
-    title: `${set.title}: ${set.moment}`,
-    description: set.kicker,
+    title: set.seo?.title ?? `${set.title}: ${set.moment}`,
+    description: set.seo?.description ?? set.kicker,
     alternates: { canonical: `/sets/${set.handle}` },
     openGraph: { title: set.title, description: set.kicker, images: [setPhoto(set.hero, 1200)] },
   };
@@ -72,6 +74,7 @@ export default async function SetPage({ params }: Props) {
   const comingSoon = set.status === 'coming-soon' || !variant.availableForSale;
   const devPrice = product.source === 'development';
   const others = ROOM_SETS.filter((s) => s.handle !== set.handle);
+  const guides = postsForSet(set.handle).slice(0, 3);
   const items = itemCount(set);
   const boxPieces: BoxPiece[] = set.pieces.map((p) => ({
     handle: p.handle,
@@ -121,7 +124,7 @@ export default async function SetPage({ params }: Props) {
           </span>
         </div>
         <div className="container world-hero__body">
-          <p className="world-hero__kicker">A room set from {set.place}</p>
+          <p className="world-hero__kicker">{set.seo?.category ?? `A room set from ${set.place}`}</p>
           <h1 className="display world-hero__title">{set.title}</h1>
           <p className="world-hero__moment">{set.moment}</p>
           <div className="world-hero__actions">
@@ -300,6 +303,70 @@ export default async function SetPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Who it suits, questions, and guides that go with it. */}
+      {set.seo && (
+        <section className="world-know" aria-labelledby="know-title">
+          <div className="container world-know__inner">
+            <div className="world-know__for">
+              <h2 id="know-title" className="display-2">
+                Who it’s for
+              </h2>
+              <dl>
+                {set.seo.goodFor.map((g) => (
+                  <div key={g.heading}>
+                    <dt>{g.heading}</dt>
+                    <dd>{g.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+            <div className="world-know__faq">
+              <h2 className="world-know__faq-title">Questions about {theTitle(set.title)} set</h2>
+              <div className="faq">
+                {set.seo.faqs.map((f) => (
+                  <details key={f.q}>
+                    <summary>
+                      {f.q}
+                      <Icon name="plus" size={18} />
+                    </summary>
+                    <p>{f.a}</p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </div>
+          <JsonLd
+            data={{
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: set.seo.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+            }}
+          />
+        </section>
+      )}
+
+      {guides.length > 0 && (
+        <section className="world-guides" aria-labelledby="guides-title">
+          <div className="container">
+            <div className="world-guides__head">
+              <h2 id="guides-title" className="display-2">
+                From the Journal
+              </h2>
+              <Link href="/journal" className="arrow-link">
+                All guides <Icon name="arrow-right" size={16} />
+              </Link>
+            </div>
+            <ul className="journal-grid">
+              {guides.map((p) => (
+                <li key={p.slug}>
+                  <PostCard post={p} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* Elsewhere: the other places. */}
       <nav className="world-others" aria-label="Other room sets">

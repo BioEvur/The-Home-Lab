@@ -406,3 +406,145 @@
     transition: none;
   }
 }
+
+/* How it works */
+.home-how {
+  padding-block: var(--section);
+  background: var(--chalk-deep);
+}
+
+.home-how__steps {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: 3rem;
+  counter-reset: how;
+}
+
+.home-how__steps li {
+  counter-increment: how;
+  border-top: 1px solid var(--ink);
+  padding-top: 1.25rem;
+}
+
+.home-how__steps li::before {
+  content: counter(how, decimal-leading-zero);
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--clay-text);
+  margin-bottom: 1rem;
+}
+
+.home-how__steps h3 {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+}
+
+.home-how__steps p {
+  margin-top: 0.6rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 28rem;
+}
+
+@media (min-width: 900px) {
+  .home-how__steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+}
+
+/* Gifts */
+.home-gifts {
+  padding-block: var(--section);
+  background: var(--ink);
+  color: var(--chalk);
+}
+
+.home-gifts__inner {
+  display: grid;
+  gap: 2.5rem;
+  align-items: end;
+}
+
+.home-gifts__lede {
+  margin-top: 1.5rem;
+  max-width: 36rem;
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  color: rgb(245 243 238 / 0.82);
+}
+
+.home-gifts__list {
+  display: grid;
+  border-top: 1px solid rgb(245 243 238 / 0.2);
+}
+
+.home-gifts__list a {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid rgb(245 243 238 / 0.2);
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: padding var(--t-med) var(--ease-out), color var(--t-fast);
+}
+
+.home-gifts__list a::after {
+  content: '→';
+  font-family: var(--font-sans);
+  color: #d9967a;
+}
+
+.home-gifts__list a:hover {
+  padding-left: 0.5rem;
+  color: #fff;
+}
+
+.home-gifts__cta {
+  --b-bg: var(--chalk);
+  --b-fg: var(--ink);
+  --b-border: var(--chalk);
+  justify-self: start;
+}
+
+@media (min-width: 1024px) {
+  .home-gifts__inner {
+    grid-template-columns: 1.1fr 1fr;
+    column-gap: 6rem;
+  }
+
+  .home-gifts__cta {
+    grid-column: 1;
+  }
+}
+
+/* Journal teaser */
+.home-journal {
+  padding-block: var(--section);
+}
+
+.home-journal__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+/* FAQ */
+.home-faq {
+  display: grid;
+  gap: 2rem;
+  padding-bottom: var(--section);
+}
+
+@media (min-width: 1024px) {
+  .home-faq {
+    grid-template-columns: 1fr 1.6fr;
+    gap: 6rem;
+  }
+}
