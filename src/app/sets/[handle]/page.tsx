@@ -46,6 +46,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * The hero has a wide and a tall crop and sets.css shows only one of them (the
+ * tall one on portrait phones). This mirrors that media query in `sizes`, so
+ * the browser fetches the hidden crop at its smallest width instead of 100vw.
+ */
+const HERO_TALL_MEDIA = '(max-width: 767px) and (orientation: portrait)';
+
 const WORDS = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen'];
 const inWords = (n: number) => WORDS[n] ?? String(n);
 
@@ -115,8 +122,8 @@ export default async function SetPage({ params }: Props) {
 
       {/* Arrival: the place, full screen. */}
       <header className="world-hero" data-world-hero>
-        <Media src={setPhoto(set.hero, 2400)} alt={set.hero.alt} ratio="fill" priority sizes="100vw" focus={set.hero.focus} className="world-hero__img world-hero__img--wide" />
-        <Media src={setPhoto(set.heroTall, 1200)} alt={set.heroTall.alt} ratio="fill" priority sizes="100vw" className="world-hero__img world-hero__img--tall" />
+        <Media src={setPhoto(set.hero, 2400)} alt={set.hero.alt} ratio="fill" priority sizes={`${HERO_TALL_MEDIA} 1px, 100vw`} focus={set.hero.focus} className="world-hero__img world-hero__img--wide" />
+        <Media src={setPhoto(set.heroTall, 1200)} alt={set.heroTall.alt} ratio="fill" priority sizes={`${HERO_TALL_MEDIA} 100vw, 1px`} className="world-hero__img world-hero__img--tall" />
         <div className="container world-hero__top">
           <LocalTime timeZone={set.timeZone} place={set.place} className="world-hero__time" />
           <span className="world-hero__native" lang={set.native.lang} dir={set.native.dir}>

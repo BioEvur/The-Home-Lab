@@ -1,13 +1,16 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "the-home-lab",
-  "main": ".open-next/worker.js",
+  // worker.js wraps the generated .open-next/worker.js to cache optimised images.
+  "main": "worker.js",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   "images": { "binding": "IMAGES" },
+  // Lets worker.js tie its image cache to the deployed version.
+  "version_metadata": { "binding": "CF_VERSION_METADATA" },
   "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "the-home-lab" }],
   "observability": { "enabled": true },
   // Branch preview builds (`wrangler preview`) do not inherit bindings, so list them here.
-  "previews": { "images": { "binding": "IMAGES" } }
+  "previews": { "images": { "binding": "IMAGES" }, "version_metadata": { "binding": "CF_VERSION_METADATA" } }
 }
