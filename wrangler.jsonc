@@ -7,5 +7,7 @@
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   "images": { "binding": "IMAGES" },
   "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "the-home-lab" }],
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // Branch preview builds (`wrangler preview`) do not inherit bindings, so list them here.
+  "previews": { "images": { "binding": "IMAGES" } }
 }
