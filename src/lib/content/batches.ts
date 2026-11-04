@@ -23,10 +23,19 @@ export const ROLLING = {
   line: 'Packed to order and posted within three weeks.',
 };
 
+/** Today's date in Ireland, as YYYY-MM-DD. */
+export const dublinToday = (now = new Date()) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Dublin' }).format(now);
+
 export function currentBatch(now = new Date()): Batch | null {
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Dublin' }).format(now);
+  const today = dublinToday(now);
   return BATCHES.find((b) => b.ordersClose >= today) ?? null;
 }
+
+/**
+ * A batch that is posted in time for Christmas: named for Christmas (for
+ * example "Christmas" or "Last Christmas") and posted by 20 December.
+ */
+export const isChristmasBatch = (batch: Batch) => /christmas/i.test(batch.name) && batch.shipsBy.slice(5) <= '12-20';
 
 export const formatDay = (iso: string) =>
   new Intl.DateTimeFormat('en-IE', { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(`${iso}T12:00:00Z`));
@@ -35,7 +44,7 @@ export const formatDay = (iso: string) =>
 export function preorderCopy(now = new Date()) {
   const batch = currentBatch(now);
   if (!batch) return { batch, cta: ROLLING.cta, line: ROLLING.line, short: ROLLING.line, basket: ROLLING.line };
-  const isChristmas = batch.name === 'Christmas';
+  const isChristmas = isChristmasBatch(batch);
   return {
     batch,
     cta: isChristmas ? 'Pre-order for Christmas' : `Pre-order for ${batch.name}`,

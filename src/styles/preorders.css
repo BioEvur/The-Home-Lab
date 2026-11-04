@@ -1,0 +1,378 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Pre-order landing page (/preorders). Reuses the set-page hero
+   (.world-hero), the set colour worlds (.world--*), the homepage steps
+   (.home-how) and the FAQ; only what is new lives here.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+.preorders-hero {
+  min-height: max(620px, 100svh);
+}
+
+.preorders-hero .world-hero__top {
+  font-size: var(--fs-small);
+}
+
+.preorders-hero__title {
+  max-width: 15ch;
+  color: var(--chalk);
+}
+
+.preorders-hero__lede {
+  max-width: 34ch;
+}
+
+/* The dates, along the bottom of the photograph. */
+.preorders-dates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  color: var(--chalk);
+  background: rgb(23 25 24 / 0.55);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgb(245 243 238 / 0.14);
+}
+
+.preorders-dates div {
+  padding: 0.9rem var(--gutter);
+  border-top: 1px solid rgb(245 243 238 / 0.14);
+}
+
+.preorders-dates div:nth-child(-n + 2) {
+  border-top: 0;
+}
+
+.preorders-dates div:nth-child(odd) {
+  border-right: 1px solid rgb(245 243 238 / 0.14);
+}
+
+.preorders-dates dt {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  color: rgb(245 243 238 / 0.78);
+}
+
+.preorders-dates dd {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 0.95rem + 0.7vw, 1.6rem);
+  line-height: 1.15;
+}
+
+@media (min-width: 900px) {
+  .preorders-dates {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .preorders-dates div,
+  .preorders-dates div:nth-child(-n + 2) {
+    border-top: 0;
+  }
+
+  .preorders-dates div:not(:last-child) {
+    border-right: 1px solid rgb(245 243 238 / 0.14);
+  }
+}
+
+/* ── Section heads ─────────────────────────────────────────────────────── */
+.preorders-section__head {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.preorders-section__head p {
+  max-width: 40rem;
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+@media (min-width: 1024px) {
+  .preorders-section__head {
+    grid-template-columns: 1fr minmax(0, 32rem);
+    align-items: end;
+    gap: 4rem;
+  }
+}
+
+/* ── The sets ──────────────────────────────────────────────────────────── */
+.preorders-sets {
+  padding-block: var(--section);
+  scroll-margin-top: var(--header-h);
+}
+
+.preorders-sets__list {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 900px) {
+  .preorders-sets__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.preorder-set {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* The chalk set sits on a chalk page, so give it its own surface. */
+.preorder-set.world--chalk {
+  background: var(--chalk-deep);
+}
+
+.preorder-set__media {
+  display: block;
+}
+
+.preorder-set__body {
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.preorder-set__place {
+  font-size: var(--fs-small);
+  color: var(--w-accent);
+}
+
+.preorder-set__title {
+  font-family: var(--font-serif);
+  font-weight: 350;
+  font-size: clamp(2rem, 1.4rem + 2vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.preorder-set__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.preorder-set__title a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
+}
+
+.preorder-set__kicker {
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+  color: var(--w-soft);
+}
+
+.preorder-set__pieces {
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--w-line);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--w-soft);
+}
+
+.preorder-set__price {
+  margin-top: 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.preorder-set__price span {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  color: var(--w-muted);
+}
+
+.preorder-set__saving {
+  font-size: var(--fs-small);
+  color: var(--w-soft);
+}
+
+.preorder-set__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  margin-top: 0.75rem;
+}
+
+.preorders-soon {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-block: 1.25rem;
+  border-block: var(--rule);
+  color: var(--ink-soft);
+}
+
+/* ── No sale ───────────────────────────────────────────────────────────── */
+.preorders-nosale {
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+  background: var(--olive);
+  color: var(--chalk);
+}
+
+.preorders-nosale__inner {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.preorders-nosale .display-2 {
+  max-width: 14ch;
+  font-size: clamp(2.1rem, 1.3rem + 3vw, 4.4rem);
+}
+
+.preorders-nosale__text {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 34rem;
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+}
+
+.preorders-nosale__small {
+  font-size: var(--fs-small);
+  color: rgb(245 243 238 / 0.82);
+}
+
+@media (min-width: 1024px) {
+  .preorders-nosale__inner {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 4rem;
+  }
+}
+
+/* ── Who it is for ─────────────────────────────────────────────────────── */
+.preorders-gifts {
+  padding-block: var(--section);
+}
+
+.preorders-gifts__lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ink);
+}
+
+.preorders-gifts__lines a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 1.5rem;
+  align-items: center;
+  padding-block: 1.25rem;
+  border-bottom: var(--rule);
+  color: inherit;
+  text-decoration: none;
+}
+
+.preorders-gifts__lines a:hover .preorders-gifts__title {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
+}
+
+.preorders-gifts__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2.2rem);
+  line-height: 1.1;
+}
+
+.preorders-gifts__intro {
+  grid-column: 1;
+  max-width: 44rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.preorders-gifts__lines .icon {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.preorders-gifts__small {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.preorders-gifts__subtitle {
+  margin-bottom: 1.5rem;
+  font-size: var(--fs-h3);
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .preorders-gifts .gifts-pieces {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* ── How it works ──────────────────────────────────────────────────────── */
+#how {
+  scroll-margin-top: var(--header-h);
+}
+
+/* ── Posted from Ireland ───────────────────────────────────────────────── */
+.preorders-trust {
+  padding-block: var(--section);
+}
+
+.preorders-trust__list {
+  display: grid;
+  gap: 2rem;
+  list-style: none;
+  margin: clamp(2rem, 4vw, 3rem) 0 0;
+  padding: 0;
+}
+
+.preorders-trust__list li {
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--ink);
+}
+
+.preorders-trust__list h3 {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+}
+
+.preorders-trust__list p {
+  margin-top: 0.5rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+.preorders-trust__who {
+  margin-top: 2.5rem;
+  color: var(--ink-soft);
+}
+
+@media (min-width: 900px) {
+  .preorders-trust__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 3rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .preorders-trust__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ── Questions ─────────────────────────────────────────────────────────── */
+.preorders-faq {
+  padding-bottom: var(--section);
+}
+
+.preorders-faq .faq {
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}

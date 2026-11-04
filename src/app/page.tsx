@@ -80,6 +80,9 @@ export default async function HomePage() {
             <div className="home-season__text">
               <p>{copy.line}</p>
               <p className="home-season__small">Christmas sets are packed by hand and sent together, one box for each set.</p>
+              <Link href="/preorders" className="arrow-link home-season__link">
+                How Christmas pre-orders work <Icon name="arrow-right" size={16} />
+              </Link>
             </div>
           </div>
         </section>

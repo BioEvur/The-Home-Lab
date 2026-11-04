@@ -45,7 +45,7 @@ export function Header() {
 
   const isActive = (href: string) => !href.includes('?') && (pathname === href || pathname.startsWith(`${href}/`));
   // Pages that open on a full-bleed photograph get the transparent header.
-  const isHome = pathname === '/' || /^\/sets\/[^/]+$/.test(pathname);
+  const isHome = pathname === '/' || pathname === '/preorders' || /^\/sets\/[^/]+$/.test(pathname);
   const transparent = isHome && !scrolled;
 
   return (

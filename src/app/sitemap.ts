@@ -6,7 +6,7 @@ import { HELP_PAGES, POLICY_PAGES } from '@/lib/content/policies';
 import { ALL_POSTS } from '@/lib/content/journal';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ['', '/shop', '/gifts', '/journal', '/about', '/contact', '/help', '/help/faqs'];
+  const staticRoutes = ['', '/preorders', '/shop', '/gifts', '/journal', '/about', '/contact', '/help', '/help/faqs'];
   return [
     ...staticRoutes.map((p) => ({ url: `${SITE_URL}${p}`, changeFrequency: 'weekly' as const, priority: p === '' ? 1 : 0.7 })),
     ...ROOM_SETS.map((s) => ({ url: `${SITE_URL}/sets/${s.handle}`, changeFrequency: 'weekly' as const, priority: 0.9 })),
