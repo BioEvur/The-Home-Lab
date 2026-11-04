@@ -192,7 +192,7 @@ export const ROOM_SETS: RoomSetContent[] = [
         name: 'Hario ceramic hand coffee grinder',
         what: 'Grinds whole coffee beans by turning the handle on top. The ground coffee collects in the glass jar underneath, which has its own lid so you can store it.',
         qty: 1,
-        price: 7900,
+        price: 8900,
         role: 'The grinder',
         note: 'Made by Hario, the Japanese coffee brand founded in Tokyo in 1921. Ceramic burrs crush every bean to the same size, which is what makes a good pour-over.',
         short: 'Ceramic burrs',
