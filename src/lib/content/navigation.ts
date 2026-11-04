@@ -1,6 +1,6 @@
 import { ROOM_SETS } from './sets';
 
-export const PRIMARY_NAV = [...ROOM_SETS.map((s) => ({ label: s.title, href: `/sets/${s.handle}` })), { label: 'Shop', href: '/shop' }, { label: 'Gifts', href: '/gifts' }, { label: 'Journal', href: '/journal' }, { label: 'About', href: '/about' }];
+export const PRIMARY_NAV = [...ROOM_SETS.map((s) => ({ label: s.title, href: `/sets/${s.handle}` })), { label: 'Pre-orders', href: '/preorders' }, { label: 'Shop', href: '/shop' }, { label: 'Gifts', href: '/gifts' }, { label: 'Journal', href: '/journal' }, { label: 'About', href: '/about' }];
 
 export const HELP_LINKS = [
   { label: 'Help centre', href: '/help' },
