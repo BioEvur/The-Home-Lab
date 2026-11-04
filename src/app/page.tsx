@@ -3,7 +3,7 @@ import { getProducts } from '@/lib/commerce';
 import { SITE_URL, siteConfig } from '@/lib/config/site';
 import { setOffer } from '@/lib/catalog/offers';
 import { ADD_ONS } from '@/lib/content/addons';
-import { preorderCopy } from '@/lib/content/batches';
+import { formatDay, preorderCopy } from '@/lib/content/batches';
 import { photoUrl } from '@/lib/content/media';
 import { ROOM_SETS, piecePhoto, setPhoto, theTitle } from '@/lib/content/sets';
 import { formatMoney } from '@/lib/format';
@@ -13,6 +13,9 @@ import { Icon } from '@/components/ui/Icon';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { Media } from '@/components/ui/Media';
 import { Reveal } from '@/components/ui/Reveal';
+import { PostCard } from '@/components/journal/PostCard';
+import { ALL_POSTS } from '@/lib/content/journal';
+import { homeFaqs } from '@/lib/content/home';
 
 // Rebuilt hourly so the batch dates move on by themselves.
 export const revalidate = 3600;
@@ -24,6 +27,7 @@ export default async function HomePage() {
     return p ? formatMoney(p.variants[0].price) : null;
   };
   const copy = preorderCopy();
+  const faqs = homeFaqs();
 
   return (
     <>
@@ -165,6 +169,114 @@ export default async function HomePage() {
             ) : null;
           })}
         </ul>
+      </section>
+
+      {/* How it works. */}
+      <section className="home-how" aria-labelledby="how-title">
+        <div className="container">
+          <h2 id="how-title" className="display-2 home-how__title">
+            How it works
+          </h2>
+          <ol className="home-how__steps">
+            <li>
+              <h3>Choose a place</h3>
+              <p>Each set recreates one corner of a real place: a Japanese coffee counter, a Milan drinks console, a Moroccan tea corner. The set page lists every piece, its size and what it is for.</p>
+            </li>
+            <li>
+              <h3>We pack it in one box</h3>
+              <p>Sets are ordered in batches. When a batch closes, we gather every piece for your set, check it and pack it together, so nothing arrives in bits from different shops.</p>
+            </li>
+            <li>
+              <h3>It arrives ready to use</h3>
+              <p>
+                {copy.batch
+                  ? `Christmas orders placed by ${formatDay(copy.batch.ordersClose)} are posted by ${formatDay(copy.batch.shipsBy)}, anywhere in the Republic of Ireland.`
+                  : 'The date your batch ships by is shown before you pay. We deliver anywhere in the Republic of Ireland.'}{' '}
+                Unpack it, follow the guide on the set page, and the corner is done.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      {/* Gifts. */}
+      <section className="home-gifts" aria-labelledby="gifts-title">
+        <div className="container home-gifts__inner">
+          <div>
+            <h2 id="gifts-title" className="display-2">
+              A Christmas gift that arrives complete
+            </h2>
+            <p className="home-gifts__lede">
+              A set is a whole gift in one box: a coffee ritual for the person who queues for flat whites, a drinks corner for the one who always hosts. Posted
+              from Ireland, so there are no customs charges on delivery.
+            </p>
+          </div>
+          <ul className="home-gifts__list">
+            <li>
+              <Link href="/gifts#coffee">For coffee lovers</Link>
+            </li>
+            <li>
+              <Link href="/gifts#hosts">For hosts and cocktail fans</Link>
+            </li>
+            <li>
+              <Link href="/gifts#new-home">For a new home</Link>
+            </li>
+            <li>
+              <Link href="/gifts#under-50">Gifts under €50</Link>
+            </li>
+          </ul>
+          <Link href="/gifts" className="button button--accent home-gifts__cta">
+            See the Christmas gift guide
+          </Link>
+        </div>
+      </section>
+
+      {/* Journal. */}
+      {ALL_POSTS.length > 0 && (
+        <section className="home-journal" aria-labelledby="home-journal-title">
+          <div className="container">
+            <div className="home-journal__head">
+              <h2 id="home-journal-title" className="display-2">
+                From the Journal
+              </h2>
+              <Link href="/journal" className="arrow-link">
+                All guides <Icon name="arrow-right" size={16} />
+              </Link>
+            </div>
+            <ul className="journal-grid">
+              {ALL_POSTS.slice(0, 3).map((p) => (
+                <li key={p.slug}>
+                  <PostCard post={p} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* Questions. */}
+      <section className="container home-faq" aria-labelledby="home-faq-title">
+        <JsonLd
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+          }}
+        />
+        <h2 id="home-faq-title" className="display-2">
+          Questions
+        </h2>
+        <div className="faq">
+          {faqs.map((f) => (
+            <details key={f.q}>
+              <summary>
+                {f.q}
+                <Icon name="plus" size={18} />
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
       </section>
 
       {/* Why sets, in a sentence. */}

@@ -23,6 +23,8 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
             </li>
           ))}
           <li><Link href="/shop" onClick={onClose}>Shop every piece</Link></li>
+          <li><Link href="/gifts" onClick={onClose}>Christmas gifts</Link></li>
+          <li><Link href="/journal" onClick={onClose}>Journal</Link></li>
           <li><Link href="/about" onClick={onClose}>About</Link></li>
           <li><Link href="/help" onClick={onClose}>Help</Link></li>
         </ul>

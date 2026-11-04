@@ -15,7 +15,7 @@ export const siteConfig = {
   name: 'The Home Lab',
   tagline: 'A considered approach to home.',
   description:
-    'The Home Lab makes room sets inspired by places around the world, starting with a Kyoto coffee house, a Milan drinks corner and a Marrakech reading corner. Each set arrives in one box with every piece it needs.',
+    'Room sets and home gifts, delivered in Ireland. Each set recreates a corner of a real place, from a Japanese pour-over coffee counter to a Milan home bar, with every piece in one box.',
   market: { country: 'Ireland', currency: 'EUR' as const, locale: 'en-IE' },
   /** Shown in the announcement strip. Leave null to hide the strip. */
   announcement: (process.env.NEXT_PUBLIC_ANNOUNCEMENT ?? '') || null,

@@ -13,8 +13,9 @@ import { Media } from '@/components/ui/Media';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'About',
-  description: 'The Home Lab makes room sets: a corner of a real place, with every piece it needs, packed in one box. Every piece is also sold on its own.',
+  title: 'About us: Irish-owned room sets',
+  description:
+    'The Home Lab is an Irish-owned shop making room sets: a corner of a real place, with every piece it needs, packed in one box and posted from Ireland.',
   alternates: { canonical: '/about' },
 };
 
@@ -39,7 +40,7 @@ export default async function AboutPage() {
         <div className="about-head__body">
           <p className="about-head__lede">
             The Home Lab makes room sets. Each set recreates a corner of a real place, a coffee house in Kyoto, a drinks corner in a Milan apartment, a tea
-            corner in Marrakech, and puts every piece it needs into one box.
+            corner in Marrakech, and puts every piece it needs into one box. We are Irish-owned, and every set is packed and posted from Ireland.
           </p>
           <dl className="about-facts">
             <div>

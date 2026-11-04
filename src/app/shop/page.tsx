@@ -13,8 +13,9 @@ import { Media } from '@/components/ui/Media';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Shop every piece',
-  description: 'Every piece from the Kyoto Kissaten, The Milanese and Riad Corner sets, on its own or as a set. Each set costs less than its pieces bought one by one.',
+  title: 'Shop coffee gear, barware and home decor',
+  description:
+    'Shop pour-over coffee gear, a Hario hand grinder, crystal decanters, cocktail shakers, a travertine lamp and more, singly or as a room set. Delivered in Ireland.',
   alternates: { canonical: '/shop' },
 };
 
@@ -28,8 +29,8 @@ export default async function ShopPage() {
       <header className="container shop-head">
         <h1 className="display-2">Shop every piece</h1>
         <p className="shop-head__lede">
-          Every piece from our room sets, sold on its own. If you want the whole corner, buy it as a set: each set costs less than its pieces bought
-          one by one.
+          Every piece from our room sets, sold on its own: pour-over coffee gear, barware, lighting and decor, posted from Ireland with no customs
+          charges. If you want the whole corner, buy it as a set: each set costs less than its pieces bought one by one.
         </p>
         {copy.batch && <p className="shop-head__batch">{copy.line}</p>}
       </header>

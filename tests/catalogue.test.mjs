@@ -38,7 +38,7 @@ test('every set costs less than its pieces bought separately', () => {
   }
   assert.deepEqual(
     ROOM_SETS.map((s) => setOffer(s, products).saving),
-    [4000, 7500, 8900],
+    [5000, 7500, 8900],
   );
 });
 

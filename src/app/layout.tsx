@@ -19,7 +19,7 @@ const serif = Newsreader({ subsets: ['latin'], variable: '--font-newsreader', st
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: `${siteConfig.name} · Room sets that bring a place home`, template: `%s · ${siteConfig.name}` },
+  title: { default: `${siteConfig.name} · Room sets and home gifts, delivered in Ireland`, template: `%s · ${siteConfig.name}` },
   description: siteConfig.description,
   applicationName: siteConfig.name,
   openGraph: { type: 'website', siteName: siteConfig.name, locale: 'en_IE', images: [{ url: '/og.png', width: 1200, height: 630, alt: 'The Home Lab' }] },
