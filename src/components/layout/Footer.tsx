@@ -31,6 +31,7 @@ export function Footer() {
                     <Link href={`/sets/${s.handle}`}>{s.title}</Link>
                   </li>
                 ))}
+                <li><Link href="/preorders">Pre-orders</Link></li>
                 <li><Link href="/shop">Shop every piece</Link></li>
                 <li><Link href="/gifts">Christmas gifts</Link></li>
               </ul>

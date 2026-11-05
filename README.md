@@ -39,7 +39,7 @@ src/lib/content/      Collections, journal, navigation, help and policy drafts
 src/lib/config/site.ts Business details, all null until confirmed
 src/styles/           tokens.css (brand palette), base, components, commerce, pages
 supabase/migrations/  Database schema with row-level security
-scripts/              Illustration generator
+scripts/              Email export, and landing-images.mjs (builds /public/images/landing from our own product photos)
 tests/                node:test suites
 ```
 
