@@ -46,20 +46,27 @@ export default async function GiftsPage() {
             and every piece is also sold on its own.
           </p>
           {copy.batch && (
-            <dl className="gifts-dates">
-              <div>
-                <dt>Order by</dt>
-                <dd>{formatDay(copy.batch.ordersClose)}</dd>
-              </div>
-              <div>
-                <dt>Posted by</dt>
-                <dd>{formatDay(copy.batch.shipsBy)}</dd>
-              </div>
-              <div>
-                <dt>Customs charges</dt>
-                <dd>None, posted from Ireland</dd>
-              </div>
-            </dl>
+            <div className="gifts-dates__wrap">
+              <dl className="gifts-dates">
+                <div>
+                  <dt>Order by</dt>
+                  <dd>{formatDay(copy.batch.ordersClose)}</dd>
+                </div>
+                <div>
+                  <dt>Posted by</dt>
+                  <dd>{formatDay(copy.batch.shipsBy)}</dd>
+                </div>
+                <div>
+                  <dt>Customs charges</dt>
+                  <dd>None, posted from Ireland</dd>
+                </div>
+              </dl>
+              <p className="gifts-dates__more">
+                <Link href="/preorders" className="arrow-link">
+                  How Christmas pre-orders work <Icon name="arrow-right" size={16} />
+                </Link>
+              </p>
+            </div>
           )}
         </div>
         <nav className="journal-head__topics" aria-label="Gift guide sections">

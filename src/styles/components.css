@@ -950,6 +950,24 @@
 
 }
 
+/* Narrow desktops: a slightly tighter gap so every nav item fits beside the logo and icons. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .site-nav ul {
+    gap: clamp(1rem, 3.6vw - 1.25rem, 1.75rem);
+  }
+}
+
+/* Below 1100px the full nav and the wordmark do not both fit, so show the mark alone, as on small phones. */
+@media (min-width: 1024px) and (max-width: 1099px) {
+  .site-header__logo .wordmark {
+    display: none;
+  }
+
+  .site-header__logo .logo__mark {
+    height: 28px;
+  }
+}
+
 .site-nav__link {
   position: relative;
   display: inline-flex;

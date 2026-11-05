@@ -39,6 +39,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IE" className={`${sans.variable} ${serif.variable}`}>
       <head>
+        {/* Development photography comes from Unsplash's CDN; open the connection early. */}
+        <link rel="preconnect" href="https://images.unsplash.com" />
         {/* Opt in to reveal animations only when JavaScript is running. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>

@@ -2,7 +2,7 @@
 import type { User } from '@supabase/supabase-js';
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { isSupabaseConfigured } from '@/lib/supabase/config';
-import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { loadSupabaseBrowserClient } from '@/lib/supabase/lazy';
 
 interface AuthState {
   configured: boolean;
@@ -17,14 +17,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({ configured, user: null, loading: configured });
 
   useEffect(() => {
-    const supabase = getSupabaseBrowserClient();
-    if (!supabase) return;
-    supabase.auth.getUser().then(({ data }) => setState({ configured: true, user: data.user ?? null, loading: false }));
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      setState({ configured: true, user: session?.user ?? null, loading: false });
+    if (!configured) return;
+    let cancelled = false;
+    let unsubscribe: (() => void) | undefined;
+    loadSupabaseBrowserClient().then((supabase) => {
+      if (!supabase || cancelled) return;
+      supabase.auth.getUser().then(({ data }) => {
+        if (!cancelled) setState({ configured: true, user: data.user ?? null, loading: false });
+      });
+      const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+        setState({ configured: true, user: session?.user ?? null, loading: false });
+      });
+      unsubscribe = () => data.subscription.unsubscribe();
     });
-    return () => data.subscription.unsubscribe();
-  }, []);
+    return () => {
+      cancelled = true;
+      unsubscribe?.();
+    };
+  }, [configured]);
 
   return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;
 }

@@ -41,14 +41,14 @@ export default async function ShopPage() {
           Room sets
         </h2>
         <ul className="shop-sets__list">
-          {ROOM_SETS.map((set) => {
+          {ROOM_SETS.map((set, i) => {
             const offer = setOffer(set, products);
             const soon = set.status === 'coming-soon';
             return (
               <li key={set.handle} className={`shop-set world world--${set.theme}`}>
                 <Link href={`/sets/${set.handle}`} className="shop-set__link">
                   <span className="shop-set__media">
-                    <Media src={setPhoto(set.heroTall, 900)} alt={set.heroTall.alt} ratio="4 / 5" sizes="(min-width: 900px) 30vw, 100vw" />
+                    <Media src={setPhoto(set.heroTall, 900)} alt={set.heroTall.alt} ratio="4 / 5" sizes="(min-width: 900px) 30vw, 100vw" priority={i === 0} />
                   </span>
                   <span className="shop-set__body">
                     <span className="shop-set__place">{set.place}</span>

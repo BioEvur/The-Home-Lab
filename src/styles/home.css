@@ -548,3 +548,8 @@
     gap: 6rem;
   }
 }
+
+.home-season__link {
+  justify-self: start;
+  margin-top: 0.5rem;
+}

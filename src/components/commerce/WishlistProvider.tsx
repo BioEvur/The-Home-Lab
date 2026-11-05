@@ -2,7 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { track } from '@/lib/analytics';
 import { readJSON, writeJSON } from '@/lib/storage';
-import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { loadSupabaseBrowserClient } from '@/lib/supabase/lazy';
 import { useAuth } from '@/components/account/AuthProvider';
 import { useAnnounce } from '@/components/ui/Announcer';
 
@@ -39,10 +39,11 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   // Merge guest items into the account on sign-in, then load the account list.
   useEffect(() => {
-    const supabase = getSupabaseBrowserClient();
-    if (!supabase || !user || mergedFor.current === user.id) return;
+    if (!user || mergedFor.current === user.id) return;
     mergedFor.current = user.id;
     (async () => {
+      const supabase = await loadSupabaseBrowserClient();
+      if (!supabase) return;
       const guest = readJSON<string[]>(STORAGE_KEY, []);
       if (guest.length) {
         await supabase
@@ -65,8 +66,9 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   const persist = useCallback(
     async (handle: string, add: boolean) => {
-      const supabase = getSupabaseBrowserClient();
-      if (!supabase || !user) return;
+      if (!user) return;
+      const supabase = await loadSupabaseBrowserClient();
+      if (!supabase) return;
       const { error } = add
         ? await supabase.from('wishlist_items').upsert({ user_id: user.id, product_handle: handle }, { onConflict: 'user_id,product_handle' })
         : await supabase.from('wishlist_items').delete().eq('user_id', user.id).eq('product_handle', handle);

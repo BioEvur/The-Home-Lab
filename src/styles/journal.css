@@ -816,3 +816,11 @@
   margin-top: 1.5rem;
   color: var(--ink-soft);
 }
+
+.gifts-dates__wrap {
+  align-self: start;
+}
+
+.gifts-dates__more {
+  margin-top: 1.25rem;
+}

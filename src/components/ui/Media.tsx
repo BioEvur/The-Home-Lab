@@ -31,7 +31,7 @@ export function Media({
     <span className={`media ${className ?? ''}`} style={ratio === 'fill' ? undefined : { aspectRatio: ratio }}>
       {src.endsWith('.svg') ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={alt} loading={priority ? 'eager' : 'lazy'} decoding="async" style={style} />
+        <img src={src} alt={alt} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : undefined} decoding="async" style={style} />
       ) : (
         <Image
           src={src}
@@ -39,6 +39,7 @@ export function Media({
           fill
           sizes={sizes}
           priority={priority}
+          fetchPriority={priority ? 'high' : undefined}
           style={style}
           loader={isUnsplash(src) ? unsplashLoader : undefined}
         />

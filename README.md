@@ -39,7 +39,7 @@ src/lib/content/      Collections, journal, navigation, help and policy drafts
 src/lib/config/site.ts Business details, all null until confirmed
 src/styles/           tokens.css (brand palette), base, components, commerce, pages
 supabase/migrations/  Database schema with row-level security
-scripts/              Illustration generator
+scripts/              Email export, and landing-images.mjs (builds /public/images/landing from our own product photos)
 tests/                node:test suites
 ```
 
@@ -49,4 +49,4 @@ tests/                node:test suites
 
 ## Hosting on Cloudflare Workers
 
-The site runs on Cloudflare Workers through the OpenNext adapter (`open-next.config.ts`, `wrangler.jsonc`). `npm run preview` builds and serves it locally in the Workers runtime; `npm run deploy` builds and deploys it. Deploying needs `CLOUDFLARE_API_TOKEN` (Workers Scripts: Edit, Workers Routes: Edit, Zone: Read on thehomelab.ie) and `CLOUDFLARE_ACCOUNT_ID`. Set the variables from `.env.example` as Worker secrets with `npx wrangler secret put NAME`.
+The site runs on Cloudflare Workers through the OpenNext adapter (`open-next.config.ts`, `wrangler.jsonc`). The Worker entry is `worker.js`, which wraps the generated `.open-next/worker.js` and caches resized images (`/_next/image`) at the edge for the current deploy, and in browsers for four hours. `npm run preview` builds and serves it locally in the Workers runtime; `npm run deploy` builds and deploys it. Deploying needs `CLOUDFLARE_API_TOKEN` (Workers Scripts: Edit, Workers Routes: Edit, Zone: Read on thehomelab.ie) and `CLOUDFLARE_ACCOUNT_ID`. Set the variables from `.env.example` as Worker secrets with `npx wrangler secret put NAME`.
