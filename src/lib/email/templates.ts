@@ -261,7 +261,7 @@ export function newsletterBroadcastTemplate(siteUrl = SITE_URL): Email {
   const story = (file: string, alt: string, kicker: string, title: string, line: string, href: string) =>
     `<td class="tile" width="294" valign="top" style="width:294px;background:${C.paper};border-radius:6px"><img src="${site}/email/${file}" width="294" alt="${alt}" class="fluid" style="display:block;width:100%;max-width:294px;height:auto;border:0;border-radius:6px 6px 0 0;background:${C.sandDeep}"><div style="padding:20px 22px 22px"><p style="margin:0 0 8px;font-family:${SANS};font-size:11px;font-weight:600;letter-spacing:0.14em;color:${C.clay}">${kicker}</p><p style="margin:0 0 8px;font-family:${SERIF};font-size:21px;line-height:1.25;color:${C.ink}">${title}</p><p style="margin:0 0 14px;font-family:${SANS};font-size:14px;line-height:1.55;color:${C.soft}">${line}</p><a href="${site}${href}" style="font-family:${SANS};font-size:14px;font-weight:600;color:${C.ink};text-decoration:none">Have a look &rarr;</a></div></td>`;
   const body = `${hero(site, 'letter-hero.jpg', 'Everything in the Kyoto Kissaten set: handleless cups in a gift box, an amber glass dripper on its jug, a black gooseneck kettle, a Hario hand grinder and a long acacia board', '#f3efe9')}
-<tr><td class="pad" style="background:${C.paper};padding:40px 48px 36px;border-radius:0 0 6px 6px">${eyebrow('CHRISTMAS ORDERS CLOSE 17 NOVEMBER')}${h1('Order by 17 November for Christmas')}${p('Main story: what’s new, what it is, and what it costs. Two or three sentences that say what the thing actually is.', C.soft)}${button('See the room sets', site)}</td></tr>
+<tr><td class="pad" style="background:${C.paper};padding:40px 48px 36px;border-radius:0 0 6px 6px">${eyebrow('CHRISTMAS ORDERS CLOSE 22 NOVEMBER')}${h1('Order by 22 November for Christmas')}${p('Main story: what’s new, what it is, and what it costs. Two or three sentences that say what the thing actually is.', C.soft)}${button('See the room sets', site)}</td></tr>
 <tr><td style="padding:40px 4px 14px">${eyebrow('ALSO THIS MONTH')}${h2('Two more things')}</td></tr>
 <tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
 ${story('letter-story-1.jpg', 'Two brown ceramic candle holders with cut-out sides, lit, on a marble console', 'THE MILANESE', 'Second story headline', 'A set, a single piece or some news. Keep it short and say what the thing is.', '/sets/the-milanese')}<td class="gap" width="12" style="width:12px;font-size:0">&nbsp;</td>
@@ -278,9 +278,9 @@ ${eyebrow('FROM THE COUNTER')}
 ${welcomeNote('Until next time,')}`;
   const reason = "You're getting this because you signed up for emails from The Home Lab.";
   return {
-    subject: 'Order by 17 November for Christmas delivery',
+    subject: 'Order by 22 November for Christmas delivery',
     html: shell({ site, title: 'The Home Lab', preheader: 'The last day to order a room set for Christmas.', label: 'NEWSLETTER', body, reason, footer: footer(site, '{{{RESEND_UNSUBSCRIBE_URL}}}') }),
-    text: plain('Order by 17 November for Christmas', 'Main story goes here.', `See the room sets: ${site}`, reason, 'Unsubscribe: {{{RESEND_UNSUBSCRIBE_URL}}}'),
+    text: plain('Order by 22 November for Christmas', 'Main story goes here.', `See the room sets: ${site}`, reason, 'Unsubscribe: {{{RESEND_UNSUBSCRIBE_URL}}}'),
   };
 }
 

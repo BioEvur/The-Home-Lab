@@ -5,7 +5,7 @@
  * out from the batches in `batches.ts`. The page is rebuilt hourly, so it
  * moves through its states by itself:
  *
- * - `christmas`: a Christmas batch is open ("Order by 17 November for Christmas").
+ * - `christmas`: a Christmas batch is open ("Order by 22 November for Christmas").
  * - `batch`: a later, non-Christmas batch is open (for example "January").
  * - `rolling`: no batch is open; sets are posted within three weeks of ordering.
  *

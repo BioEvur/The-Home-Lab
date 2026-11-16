@@ -15,7 +15,7 @@ export interface Batch {
   shipsBy: string;
 }
 
-export const BATCHES: Batch[] = [{ name: 'Christmas', ordersClose: '2026-11-17', shipsBy: '2026-12-12' }];
+export const BATCHES: Batch[] = [{ name: 'Christmas', ordersClose: '2026-11-22', shipsBy: '2026-12-12' }];
 
 /** Shown once every batch above has closed, until a new one is added. */
 export const ROLLING = {
