@@ -97,10 +97,10 @@ test('pre-order copy follows the Christmas batch, then falls back after it close
   const before = preorderCopy(new Date('2026-11-01T12:00:00Z'));
   assert.equal(before.batch?.name, 'Christmas');
   assert.equal(before.cta, 'Pre-order for Christmas');
-  assert.match(before.line, /17 November.*12 December/);
+  assert.match(before.line, /22 November.*12 December/);
   // The last day to order still counts, in Irish time.
-  assert.equal(currentBatch(new Date('2026-11-17T23:30:00Z'))?.name, 'Christmas');
-  const after = preorderCopy(new Date('2026-11-19T12:00:00Z'));
+  assert.equal(currentBatch(new Date('2026-11-22T23:30:00Z'))?.name, 'Christmas');
+  const after = preorderCopy(new Date('2026-11-24T12:00:00Z'));
   assert.equal(after.batch, null);
   assert.equal(after.cta, 'Pre-order the set');
   assert.equal(formatDay('2026-12-12'), '12 December');

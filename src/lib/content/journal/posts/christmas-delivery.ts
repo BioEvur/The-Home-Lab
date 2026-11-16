@@ -56,7 +56,7 @@ export const christmasDelivery: Post = {
     { type: 'h2', id: 'our-dates', text: 'The Home Lab’s Christmas 2026 dates' },
     {
       type: 'p',
-      text: 'Our room sets are made up in batches: when the batch closes, we gather every piece, check it and pack each set in one box. For Christmas 2026, **orders close on 17 November and every set is posted by 12 December**, ahead of the busiest posting week. Larger add-ons, like the Manhattan console, are sent by courier and arrive by the same date. If a batch is ever delayed, we email you before the ship-by date passes, and you can wait or cancel for a full refund.',
+      text: 'Our room sets are made up in batches: when the batch closes, we gather every piece, check it and pack each set in one box. For Christmas 2026, **orders close on 22 November and every set is posted by 12 December**, ahead of the busiest posting week. Larger add-ons, like the Manhattan console, are sent by courier and arrive by the same date. If a batch is ever delayed, we email you before the ship-by date passes, and you can wait or cancel for a full refund.',
     },
     {
       type: 'set',
