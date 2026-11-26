@@ -95,6 +95,11 @@ export const PRODUCT_PHOTOS: Record<string, Photo[]> = {
   ],
   'riad-corner': [{ id: 'photo-1770872938037-390c2f1a987f', alt: 'A low, layered seating corner with plants and textiles' }],
   // Kyoto Kissaten
+  'kissaten-pour-over-box': [
+    { id: '/images/pieces/handleless-cups.jpg', alt: 'Four handleless ceramic cups in dark iron, speckled green, red and cream glazes, in an open pale blue gift box' },
+    { id: '/images/pieces/glass-pour-over-dripper.jpg', alt: 'An amber glass pour-over dripper sitting on its matching glass jug with a wooden band', focus: '50% 40%' },
+    { id: '/images/pieces/glass-pour-over-dripper-2.jpg', alt: 'The amber glass dripper and jug next to the box of paper filters that comes with it' },
+  ],
   'glass-pour-over-dripper': [
     { id: '/images/pieces/glass-pour-over-dripper.jpg', alt: 'An amber glass pour-over dripper sitting on its matching glass jug with a wooden band', focus: '50% 40%' },
     { id: '/images/pieces/glass-pour-over-dripper-2.jpg', alt: 'The amber glass dripper and jug next to the box of paper filters that comes with it' },

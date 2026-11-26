@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { getProducts } from '@/lib/commerce';
 import { SITE_URL, siteConfig } from '@/lib/config/site';
-import { setOffer } from '@/lib/catalog/offers';
+import { boxOffer, setOffer } from '@/lib/catalog/offers';
+import { GIFT_BOXES } from '@/lib/content/boxes';
 import { ADD_ONS } from '@/lib/content/addons';
 import { formatDay, preorderCopy } from '@/lib/content/batches';
 import { photoUrl } from '@/lib/content/media';
@@ -9,6 +10,7 @@ import { ROOM_SETS, piecePhoto, setPhoto, theTitle } from '@/lib/content/sets';
 import { formatMoney } from '@/lib/format';
 import { LocalTime } from '@/components/sets/LocalTime';
 import { PieceCard } from '@/components/shop/PieceCard';
+import { GiftBoxFeature } from '@/components/shop/GiftBoxFeature';
 import { Icon } from '@/components/ui/Icon';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { Media } from '@/components/ui/Media';
@@ -69,6 +71,14 @@ export default async function HomePage() {
           ))}
         </ul>
       </section>
+
+      {/* Gift boxes: the smaller, in-stock way in. */}
+      {GIFT_BOXES.map((box) => {
+        const product = products.find((p) => p.handle === box.handle);
+        const set = ROOM_SETS.find((s) => s.handle === box.set);
+        const offer = boxOffer(box, products);
+        return product && set && offer ? <GiftBoxFeature key={box.handle} box={box} product={product} set={set} separately={offer.separately} themed /> : null;
+      })}
 
       {/* The season. */}
       {copy.batch && (

@@ -1,5 +1,6 @@
 'use client';
 import { preorderCopy } from '@/lib/content/batches';
+import { getGiftBox, giftBoxCopy } from '@/lib/content/boxes';
 import { productHref } from '@/lib/content/sets';
 import Link from 'next/link';
 import { formatMoney } from '@/lib/format';
@@ -12,6 +13,12 @@ const ISSUE_TEXT: Record<NonNullable<CartLine['issue']>, string> = {
   unavailable: 'No longer available. It will not be included at checkout.',
   removed: 'This item is no longer sold. Please remove it.',
   'price-changed': 'The price has changed since you added this item.',
+};
+
+/** When the line is posted: a gift box has its own date, everything else follows the batch. */
+const basketLine = (handle: string) => {
+  const box = getGiftBox(handle);
+  return box ? giftBoxCopy(box).basket : preorderCopy().basket;
 };
 
 export function CartLines({ compact = false, onNavigate }: { compact?: boolean; onNavigate?: () => void }) {
@@ -32,7 +39,7 @@ export function CartLines({ compact = false, onNavigate }: { compact?: boolean; 
                   </Link>
                 </h3>
                 {line.variantTitle && <p className="cart-line__variant">{line.variantTitle}</p>}
-                <p className="cart-line__variant">{preorderCopy().basket}</p>
+                <p className="cart-line__variant">{basketLine(line.handle)}</p>
                 {!compact && <p className="cart-line__unit">{formatMoney(line.price)} each</p>}
               </div>
               <p className="cart-line__total">

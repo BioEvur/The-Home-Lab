@@ -11,6 +11,7 @@
  */
 import type { SampleProductSpec } from './sample-data';
 import { ADD_ONS } from '../content/addons';
+import { GIFT_BOXES } from '../content/boxes';
 import { ROOM_SETS } from '../content/sets';
 
 export const SET_PRODUCTS: SampleProductSpec[] = [
@@ -143,4 +144,30 @@ export const ADD_ON_PRODUCTS: SampleProductSpec[] = ADD_ONS.map((a) => ({
   defaultTone: 'charcoal',
   options: [],
   basePrice: a.price,
+}));
+
+/** Gift boxes: a few pieces from a set, kept in stock, cheaper than the pieces on their own. */
+export const BOX_PRODUCTS: SampleProductSpec[] = GIFT_BOXES.map((b) => ({
+  handle: b.handle,
+  title: b.title,
+  productType: 'Gift box',
+  category: SET_PRODUCTS.find((p) => p.handle === b.set)!.category,
+  extraCollections: ['gift-boxes'],
+  short: b.what,
+  description: `${b.what} ${b.note}`,
+  features: b.details.map((d) => `${d.label}: ${d.value}`),
+  materials: [],
+  materialFamilies: [],
+  dimensions: null,
+  weightKg: null,
+  care: null,
+  assembly: null,
+  tags: ['gift box', 'gift', 'coffee'],
+  related: [b.set],
+  isNew: true,
+  createdAt: '2026-11-26',
+  rank: 0,
+  defaultTone: SET_PRODUCTS.find((p) => p.handle === b.set)!.defaultTone,
+  options: [],
+  basePrice: b.price,
 }));

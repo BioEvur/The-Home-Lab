@@ -1,5 +1,6 @@
 import type { Product } from './types';
 import type { RoomSetContent } from '@/lib/content/sets';
+import type { GiftBox } from '@/lib/content/boxes';
 
 /**
  * What a set costs against its pieces bought one by one, from the catalogue
@@ -15,3 +16,12 @@ export function setOffer(set: RoomSetContent, products: Product[]) {
 
 export type SetOffer = NonNullable<ReturnType<typeof setOffer>>;
 
+
+/** What a gift box costs against its pieces bought one by one. */
+export function boxOffer(box: GiftBox, products: Product[]) {
+  const priceOf = (handle: string) => products.find((p) => p.handle === handle)?.variants[0]?.price.amount;
+  const boxPrice = priceOf(box.handle);
+  if (boxPrice === undefined) return null;
+  const separately = box.pieces.reduce((n, h) => n + (priceOf(h) ?? 0), 0);
+  return { boxPrice, separately, saving: Math.max(0, separately - boxPrice) };
+}

@@ -53,6 +53,12 @@ Each room set is one Shopify product with a single variant, in a collection with
 
 Every piece in a set is also its own product, sold on its own at `/products/<handle>` and listed on `/shop`. Use the handles in `src/lib/content/sets.ts`, product type `Piece`, in a collection with the handle `pieces`, and give each piece the same price as `price` in `sets.ts` (the set pages and the "Buy as a set" boxes compare against it). Keep each set's price below the total of its pieces: `npm test` checks this for the sample catalogue. Use Shopify's Bundles app (or a bundle app of your choice) to link the set product to its pieces' inventory. `/products/<set-handle>` redirects to `/sets/<set-handle>`.
 
+### Gift boxes
+
+A gift box is a few pieces from one set, packed together and kept in stock, such as the Kissaten pour-over gift box (`kissaten-pour-over-box`: the glass dripper with jug and the four handleless cups, €85). Boxes live in `src/lib/content/boxes.ts`. In Shopify, create each one as a product with the same handle, product type `Gift box`, in a collection with the handle `gift-boxes`, at its `price`. Track its inventory (it is real stock, not a pre-order), and keep its price below its pieces bought separately: `npm test` checks this.
+
+The date the stock is in hand (`postedFrom`) and the last Christmas order day (`christmasOrderBy`) are in `boxes.ts`. Before `postedFrom` the box is sold as a pre-order with that date; from then on it says "In stock. Posted within two working days."
+
 ### Add-ons
 
 Add-ons are larger pieces that go with a set but are delivered separately, such as the Tempo tub chair. They live in `src/lib/content/addons.ts`. In Shopify, create each one as a product with the same handle, product type `Add-on`, in a collection with the handle `add-ons`, at its full price (`price`: €229 for the chair, €549 for the Manhattan console).

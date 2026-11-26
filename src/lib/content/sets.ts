@@ -141,7 +141,7 @@ export const ROOM_SETS: RoomSetContent[] = [
         name: 'Glass pour-over coffee dripper with jug, 400 ml',
         what: 'A ribbed amber glass cone that sits on its own matching glass jug. You put a paper filter and ground coffee in the cone, pour hot water over it, and the coffee drips through into the jug. A pack of paper filters comes with it.',
         qty: 1,
-        price: 3800,
+        price: 2700,
         role: 'The dripper and jug',
         note: 'The ribs inside the cone let the coffee drip through evenly. The amber glass and walnut-coloured band give it the warm look of an old coffee house.',
         short: '400 ml',
