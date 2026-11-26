@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/config/site';
 import { ADD_ONS } from '@/lib/content/addons';
+import { GIFT_BOXES } from '@/lib/content/boxes';
 import { LANDING_PAGES } from '@/lib/content/landings';
 import { ROOM_SETS } from '@/lib/content/sets';
 import { HELP_PAGES, POLICY_PAGES } from '@/lib/content/policies';
@@ -12,7 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticRoutes.map((p) => ({ url: `${SITE_URL}${p}`, changeFrequency: 'weekly' as const, priority: p === '' ? 1 : 0.7 })),
     ...ROOM_SETS.map((s) => ({ url: `${SITE_URL}/sets/${s.handle}`, changeFrequency: 'weekly' as const, priority: 0.9 })),
     ...LANDING_PAGES.map((l) => ({ url: `${SITE_URL}${l.href}`, changeFrequency: 'weekly' as const, priority: 0.7 })),
-    ...[...ROOM_SETS.flatMap((s) => s.pieces.map((p) => p.handle)), ...ADD_ONS.map((a) => a.handle)].map((h) => ({
+    ...[...GIFT_BOXES.map((b) => b.handle), ...ROOM_SETS.flatMap((s) => s.pieces.map((p) => p.handle)), ...ADD_ONS.map((a) => a.handle)].map((h) => ({
       url: `${SITE_URL}/products/${h}`,
       changeFrequency: 'weekly' as const,
       priority: 0.6,

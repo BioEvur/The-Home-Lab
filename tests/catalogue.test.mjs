@@ -4,21 +4,28 @@ import { getLocalProducts } from '@/lib/catalog/local';
 import { findVariant, defaultVariant, optionsOf } from '@/lib/catalog/variants';
 import { currentBatch, formatDay, preorderCopy } from '@/lib/content/batches';
 import { ADD_ONS, addOnDiscounts } from '@/lib/content/addons';
-import { setOffer } from '@/lib/catalog/offers';
+import { boxOffer, setOffer } from '@/lib/catalog/offers';
+import { GIFT_BOXES, giftBoxCopy } from '@/lib/content/boxes';
 import { ROOM_SETS, itemCount, piecePhoto, piecesTotal, productHref, setForPiece } from '@/lib/content/sets';
 import { formatMoney, isOnSale } from '@/lib/format';
 
 const products = getLocalProducts();
 
-test('the catalogue is the three room sets, every piece in them, and the add-ons', () => {
+test('the catalogue is the three room sets, every piece in them, the gift boxes and the add-ons', () => {
   const pieces = ROOM_SETS.flatMap((s) => s.pieces.map((p) => p.handle));
   assert.deepEqual(
     products.map((p) => p.handle).sort(),
-    [...ROOM_SETS.map((s) => s.handle), ...pieces, ...ADD_ONS.map((a) => a.handle)].sort(),
+    [...ROOM_SETS.map((s) => s.handle), ...pieces, ...GIFT_BOXES.map((b) => b.handle), ...ADD_ONS.map((a) => a.handle)].sort(),
   );
   for (const p of products) {
     assert.equal(p.variants.length, 1, p.handle);
-    const type = ROOM_SETS.some((s) => s.handle === p.handle) ? 'Room set' : pieces.includes(p.handle) ? 'Piece' : 'Add-on';
+    const type = ROOM_SETS.some((s) => s.handle === p.handle)
+      ? 'Room set'
+      : pieces.includes(p.handle)
+        ? 'Piece'
+        : GIFT_BOXES.some((b) => b.handle === p.handle)
+          ? 'Gift box'
+          : 'Add-on';
     assert.equal(p.productType, type, p.handle);
   }
 });
@@ -38,8 +45,34 @@ test('every set costs less than its pieces bought separately', () => {
   }
   assert.deepEqual(
     ROOM_SETS.map((s) => setOffer(s, products).saving),
-    [5000, 7500, 8900],
+    [3900, 7500, 8900],
   );
+});
+
+test('every gift box is pieces from one live set, cheaper than those pieces on their own', () => {
+  for (const box of GIFT_BOXES) {
+    const set = ROOM_SETS.find((s) => s.handle === box.set);
+    assert.ok(set && set.status === 'available', box.handle);
+    for (const h of box.pieces) assert.ok(set.pieces.some((p) => p.handle === h), `${box.handle} → ${h}`);
+    const offer = boxOffer(box, products);
+    assert.ok(offer && offer.saving > 0, box.handle);
+    assert.ok(offer.boxPrice < setOffer(set, products).setPrice, box.handle);
+  }
+  assert.deepEqual(GIFT_BOXES.map((b) => boxOffer(b, products).saving), [700]);
+});
+
+test('a gift box is pre-ordered until its stock date, then in stock, with Christmas wording only until its last order day', () => {
+  const box = GIFT_BOXES[0];
+  const before = giftBoxCopy(box, new Date('2026-11-27T12:00:00Z'));
+  assert.equal(before.inStock, false);
+  assert.equal(before.cta, 'Pre-order the box');
+  assert.equal(before.line, 'Posted from 7 December. Order by 16 December for Christmas.');
+  const during = giftBoxCopy(box, new Date('2026-12-10T12:00:00Z'));
+  assert.equal(during.inStock, true);
+  assert.equal(during.line, 'In stock. Posted within two working days. Order by 16 December for Christmas.');
+  const after = giftBoxCopy(box, new Date('2027-02-01T12:00:00Z'));
+  assert.equal(after.line, 'In stock. Posted within two working days.');
+  assert.equal(after.basket, after.line);
 });
 
 test('an add-on costs less only with a room set, once per set', () => {

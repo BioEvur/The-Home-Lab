@@ -7,7 +7,9 @@ import { formatDay, preorderCopy } from '@/lib/content/batches';
 import { ROOM_SETS, getRoomSet, itemCount, piecePhotos, setPhoto, theTitle } from '@/lib/content/sets';
 import { photoUrl } from '@/lib/content/media';
 import { defaultVariant } from '@/lib/catalog/variants';
-import { setOffer } from '@/lib/catalog/offers';
+import { boxOffer, setOffer } from '@/lib/catalog/offers';
+import { giftBoxesForSet } from '@/lib/content/boxes';
+import { GiftBoxFeature } from '@/components/shop/GiftBoxFeature';
 import { addOnsForSet } from '@/lib/content/addons';
 import { postsForSet } from '@/lib/content/journal';
 import { PostCard } from '@/components/journal/PostCard';
@@ -62,7 +64,11 @@ export default async function SetPage({ params }: Props) {
   const product = await getProduct(set.handle);
   if (!product) notFound();
 
-  const catalogue = await getProductsByHandles([...set.pieces.map((p) => p.handle), ...addOnsForSet(set.handle).map((a) => a.handle)]);
+  const catalogue = await getProductsByHandles([
+    ...set.pieces.map((p) => p.handle),
+    ...addOnsForSet(set.handle).map((a) => a.handle),
+    ...giftBoxesForSet(set.handle).map((b) => b.handle),
+  ]);
   const offer = setOffer(set, [product, ...catalogue]);
   const addOns: SetAddOn[] = addOnsForSet(set.handle).flatMap((addOn) => {
     const p = catalogue.find((x) => x.handle === addOn.handle);
@@ -244,6 +250,14 @@ export default async function SetPage({ params }: Props) {
             </div>
           </section>
         ))}
+
+      {/* A smaller gift box from the set, in stock. */}
+      {!comingSoon &&
+        giftBoxesForSet(set.handle).map((box) => {
+          const p = catalogue.find((x) => x.handle === box.handle);
+          const boxDeal = boxOffer(box, catalogue);
+          return p && boxDeal ? <GiftBoxFeature key={box.handle} box={box} product={p} set={set} separately={boxDeal.separately} /> : null;
+        })}
 
       {/* Where the idea comes from. */}
       <section className="container world-story" aria-labelledby="story-title">

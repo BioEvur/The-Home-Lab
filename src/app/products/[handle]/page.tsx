@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getProduct, getProducts } from '@/lib/commerce';
 import { SITE_URL, siteConfig } from '@/lib/config/site';
-import { setOffer } from '@/lib/catalog/offers';
+import { boxOffer, setOffer } from '@/lib/catalog/offers';
+import { GIFT_BOXES, getGiftBox, giftBoxCopy } from '@/lib/content/boxes';
 import { defaultVariant } from '@/lib/catalog/variants';
 import { ADD_ONS, getAddOn } from '@/lib/content/addons';
 import { preorderCopy } from '@/lib/content/batches';
@@ -23,27 +24,40 @@ export const dynamicParams = false;
 export const revalidate = 3600;
 
 export function generateStaticParams() {
-  return [...ROOM_SETS.flatMap((s) => s.pieces.map((p) => ({ handle: p.handle }))), ...ADD_ONS.map((a) => ({ handle: a.handle }))];
+  return [
+    ...GIFT_BOXES.map((b) => ({ handle: b.handle })),
+    ...ROOM_SETS.flatMap((s) => s.pieces.map((p) => ({ handle: p.handle }))),
+    ...ADD_ONS.map((a) => ({ handle: a.handle })),
+  ];
 }
 
-/** A piece from a set, or an add-on, in the same shape. */
+/** A piece from a set, a gift box or an add-on, in the same shape. */
 function lookup(handle: string) {
+  const box = getGiftBox(handle);
+  const boxSet = box && getRoomSet(box.set);
+  if (box && boxSet)
+    return { kind: 'box' as const, set: boxSet, title: box.title, soldAs: undefined, what: box.what, note: box.note, details: box.details, addOn: null, box };
   const found = getPiece(handle);
   if (found) {
     const { set, piece } = found;
-    return { kind: 'piece' as const, set, title: piece.name, soldAs: piece.soldAs, what: piece.what, note: piece.note, details: piece.details, addOn: null };
+    return { kind: 'piece' as const, set, title: piece.name, soldAs: piece.soldAs, what: piece.what, note: piece.note, details: piece.details, addOn: null, box: null };
   }
   const addOn = getAddOn(handle);
   const set = addOn && getRoomSet(addOn.sets[0]);
   if (!addOn || !set) return null;
-  return { kind: 'add-on' as const, set, title: addOn.title, soldAs: undefined, what: addOn.what, note: addOn.note, details: addOn.details, addOn };
+  return { kind: 'add-on' as const, set, title: addOn.title, soldAs: undefined, what: addOn.what, note: addOn.note, details: addOn.details, addOn, box: null };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const item = lookup((await params).handle);
   if (!item) notFound();
   const firstSentence = item.what.split(/(?<=\.)\s/)[0];
-  const from = item.kind === 'add-on' ? `Optional add-on to ${theTitle(item.set.title)} set` : `From ${theTitle(item.set.title)} set, sold on its own`;
+  const from =
+    item.kind === 'add-on'
+      ? `Optional add-on to ${theTitle(item.set.title)} set`
+      : item.kind === 'box'
+        ? `A gift box from ${theTitle(item.set.title)} set`
+        : `From ${theTitle(item.set.title)} set, sold on its own`;
   return {
     title: `${item.title} | ${item.set.title}`,
     description: `${firstSentence} ${from}. Delivered in Ireland, no customs charges.`,
@@ -63,7 +77,10 @@ export default async function ProductPage({ params }: Props) {
   const variant = defaultVariant(product);
   const copy = preorderCopy();
   const soon = set.status === 'coming-soon' || !variant.availableForSale;
-  const siblings = set.pieces.filter((p) => p.handle !== handle);
+  const siblings = item.box ? set.pieces.filter((p) => item.box.pieces.includes(p.handle)) : set.pieces.filter((p) => p.handle !== handle);
+  const boxCopy = item.box ? giftBoxCopy(item.box) : null;
+  const boxDeal = item.box ? boxOffer(item.box, [product, ...products]) : null;
+  const missing = item.box ? set.pieces.filter((p) => !item.box.pieces.includes(p.handle)) : [];
 
   return (
     <article className={`product world world--${set.theme}`}>
@@ -84,7 +101,7 @@ export default async function ProductPage({ params }: Props) {
                   '@type': 'Offer',
                   price: (variant.price.amount / 100).toFixed(2),
                   priceCurrency: variant.price.currencyCode,
-                  availability: 'https://schema.org/PreOrder',
+                  availability: boxCopy?.inStock ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
                 },
               }),
         }}
@@ -104,7 +121,9 @@ export default async function ProductPage({ params }: Props) {
         </div>
 
         <div className="product__info">
-          <p className="product__kicker">{item.kind === 'add-on' ? `Add-on for ${theTitle(set.title)} set` : `From ${theTitle(set.title)} set`}</p>
+          <p className="product__kicker">
+            {item.kind === 'add-on' ? `Add-on for ${theTitle(set.title)} set` : item.kind === 'box' ? `Gift box from ${theTitle(set.title)} set` : `From ${theTitle(set.title)} set`}
+          </p>
           <h1 className="product__title">{item.title}</h1>
           {item.soldAs && <p className="product__sold">{item.soldAs}</p>}
           <p className="product__price">{soon ? 'Opening in the new year' : formatMoney(variant.price)}</p>
@@ -113,12 +132,19 @@ export default async function ProductPage({ params }: Props) {
               {formatMoney(item.addOn.withSetPrice)} when you order it with any room set. The {formatMoney(item.addOn.price - item.addOn.withSetPrice)} comes off in the basket.
             </p>
           )}
+          {boxDeal && boxDeal.saving > 0 && (
+            <p className="product__with-set">
+              {formatMoney(boxDeal.separately)} for the same pieces bought separately. You save {formatMoney(boxDeal.saving)}.
+            </p>
+          )}
           <p className="product__what">{item.what}</p>
           <p className="product__note">{item.note}</p>
 
-          <PieceBuy product={product} cta={item.addOn ? 'Pre-order' : copy.cta} />
+          <PieceBuy product={product} cta={boxCopy ? boxCopy.cta : item.addOn ? 'Pre-order' : copy.cta} />
           {!soon &&
-            (item.addOn ? (
+            (boxCopy ? (
+              <p className="product__ships">{boxCopy.line}</p>
+            ) : item.addOn ? (
               <p className="product__ships">{item.addOn.delivery}</p>
             ) : (
               copy.batch && <p className="product__ships">{copy.line}</p>
@@ -132,9 +158,14 @@ export default async function ProductPage({ params }: Props) {
               </span>
               <span className="product-set__body">
                 <span id="product-set-title" className="product-set__title">
-                  Buy as a set
+                  {item.box ? 'Want the whole corner?' : 'Buy as a set'}
                 </span>
-                {item.addOn ? (
+                {item.box && offer && !soon ? (
+                  <span>
+                    The full {set.title} set adds {missing.map((p) => p.role.toLowerCase()).join(', ').replace(/, ([^,]*)$/, ' and $1')}:{' '}
+                    {formatMoney(offer.setPrice)} for all {set.pieces.length} pieces.
+                  </span>
+                ) : item.addOn ? (
                   <span>
                     Order {theTitle(set.title)} set with the {item.title} and pay{' '}
                     {formatMoney(item.addOn.withSetPrice)} for it instead of {formatMoney(item.addOn.price)}.
@@ -170,7 +201,7 @@ export default async function ProductPage({ params }: Props) {
       {/* The rest of the set. */}
       <section className="container product__more" aria-labelledby="more-title">
         <h2 id="more-title" className="shop-section__title">
-          {item.addOn ? `In ${theTitle(set.title)} set` : `Also in ${theTitle(set.title)} set`}
+          {item.box ? 'In the box, also sold on their own' : item.addOn ? `In ${theTitle(set.title)} set` : `Also in ${theTitle(set.title)} set`}
         </h2>
         <ul className="shop-grid">
           {(item.addOn ? set.pieces : siblings).map((p) => {

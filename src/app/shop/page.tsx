@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getProducts } from '@/lib/commerce';
-import { setOffer } from '@/lib/catalog/offers';
+import { boxOffer, setOffer } from '@/lib/catalog/offers';
+import { GIFT_BOXES, giftBoxCopy } from '@/lib/content/boxes';
 import { ADD_ONS } from '@/lib/content/addons';
 import { preorderCopy } from '@/lib/content/batches';
 import { ROOM_SETS, setPhoto, theTitle } from '@/lib/content/sets';
@@ -34,6 +35,32 @@ export default async function ShopPage() {
         </p>
         {copy.batch && <p className="shop-head__batch">{copy.line}</p>}
       </header>
+
+      {/* Gift boxes: a few pieces from a set, in stock. */}
+      {GIFT_BOXES.length > 0 && (
+        <section id="gift-boxes" className="container shop-group" aria-labelledby="group-gift-boxes">
+          <header className="shop-group__head">
+            <h2 id="group-gift-boxes" className="shop-section__title">
+              Gift boxes
+            </h2>
+            <p className="shop-group__note">A smaller way into a set: a few of its pieces packed together, for less than buying them one by one.</p>
+          </header>
+          <ul className="shop-grid">
+            {GIFT_BOXES.map((b) => {
+              const product = byHandle(b.handle);
+              const offer = boxOffer(b, products);
+              return product ? (
+                <li key={b.handle}>
+                  <PieceCard
+                    product={product}
+                    line={`${offer && offer.saving > 0 ? `${formatMoney(offer.separately)} for the pieces separately. ` : ''}${giftBoxCopy(b).basket}`}
+                  />
+                </li>
+              ) : null;
+            })}
+          </ul>
+        </section>
+      )}
 
       {/* The sets, with what they save. */}
       <section className="container shop-sets" aria-labelledby="shop-sets-title">

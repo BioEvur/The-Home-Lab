@@ -1,5 +1,5 @@
 import type { SampleProductSpec } from './sample-data';
-import { ADD_ON_PRODUCTS, PIECE_PRODUCTS, SET_PRODUCTS } from './sample-sets';
+import { ADD_ON_PRODUCTS, BOX_PRODUCTS, PIECE_PRODUCTS, SET_PRODUCTS } from './sample-sets';
 import { TONES } from './tones';
 import { PRODUCT_PHOTOS, photoUrl } from '@/lib/content/media';
 import type { Product, ProductImage, ProductVariant } from './types';
@@ -85,6 +85,6 @@ function buildProduct(spec: SampleProductSpec): Product {
 let cache: Product[] | null = null;
 
 export function getLocalProducts(): Product[] {
-  if (!cache) cache = [...SET_PRODUCTS, ...PIECE_PRODUCTS, ...ADD_ON_PRODUCTS].map(buildProduct);
+  if (!cache) cache = [...SET_PRODUCTS, ...BOX_PRODUCTS, ...PIECE_PRODUCTS, ...ADD_ON_PRODUCTS].map(buildProduct);
   return cache;
 }
